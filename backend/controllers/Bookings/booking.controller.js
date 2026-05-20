@@ -1,0 +1,63 @@
+import { asyncHandler } from "../../utils/asyncHandler.js";
+import { Bookings } from "../../models/booking.model.js";
+import { Events } from "../../models/event.model.js";
+
+export const createBooking = asyncHandler(async (req,res)=>{
+   const {userId, eventId, ticketCount } = req.body;
+   
+   //1.Check event's existence
+   const event = await Events.findById(eventId);
+
+   if(!event){
+    return res.status(404).json({
+        success: false,
+        message: "Event doesn't exists"
+    })
+   }
+   
+   //2.Check the seat limit
+   if(event.seatLimit < ticketCount){
+      return res.status(400).json({
+        success: false,
+        message: "No seats available"
+      })
+   }
+
+   //3.Prevent duplicate bookings
+   const existingBooking = await Bookings.findOne({
+    user: userId,
+    event: eventId
+   })
+
+   if(existingBooking){
+    return res.status(404).json({
+        success: false,
+        message: "Booking already exists"
+    })
+   }
+   
+   //4.Calculate the price
+   const price = event.price;
+    
+   //5.Create Booking object
+   const newBooking = await Bookings.create({
+    user: userId,
+    event: eventId,
+    ticketCount,
+    totalAmount: ticketCount*price,
+    bookingStatus: 'Pending'
+   })
+   
+   //6. Reserve seats and decrement seatLimit
+   event.seatLimits -= ticketCount;
+
+   await event.save();
+
+   //7.send user response : Booking successful
+   res.status(200).json({
+    success: true,
+    message: "Booking successfully created",
+    data: newBooking
+   })
+})
+

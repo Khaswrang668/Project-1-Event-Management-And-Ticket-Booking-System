@@ -1,0 +1,37 @@
+import { Events } from '../../models/event.model.js'; // Ensure correct path
+import asyncHandler from '../../utils/asyncHandler.js';
+
+export const updateEvent = asyncHandler(async (req, res) => {
+    const {
+        _id,
+        title, category, mode, venue, 
+        price, seatLimit, startTime, endTime, status
+    } = req.body;
+
+    const event = await Events.findById(_id);
+
+    if (!event) {
+        return res.status(404).json({
+            success: false,
+            message: "Event not found"
+        });
+    }
+
+    event.title = title || event.title;
+    event.category = category || event.category;
+    event.mode = mode || event.mode;
+    event.venue = venue || event.venue;
+    event.price = price || event.price;
+    event.seatLimit = seatLimit || event.seatLimit;
+    event.startTime = startTime || event.startTime;
+    event.endTime = endTime || event.endTime;
+    event.status = status || event.status;
+
+    const updatedEvent = await event.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Event updated successfully!",
+        data: updatedEvent
+    });
+});
