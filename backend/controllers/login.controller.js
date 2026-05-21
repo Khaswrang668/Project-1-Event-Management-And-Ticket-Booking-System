@@ -1,6 +1,28 @@
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { Users } from '../models/user.model.js'
+import jwt from "jsonwebtoken"
 import bcrypt from 'bcrypt'
+import { PollingOptions } from 'puppeteer-core'
+
+const generateAccessAndRefereshTokens = async(userId) =>{
+    try {
+        const user = await User.findById(userId)
+        const accessToken = user.generateAccessToken()
+        const refreshToken = user.generateRefreshToken()
+
+        user.refreshToken = refreshToken
+        await user.save({ validateBeforeSave: false })
+
+        return {accessToken, refreshToken}
+    } catch (error) {
+        console.log("Error generating JWT tokens",error)
+
+        res.status(404).json({
+          success: false,
+          message: `Failed to generate access and refresh tokens, ${error}`
+        })
+    }
+}
 
 export const userLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body
@@ -29,8 +51,19 @@ export const userLogin = asyncHandler(async (req, res) => {
       message: "Wrong password"
     })
   }
+  
+  const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
+  
+  const options = {
+    httpOnly: true,
+    secure: true
+  }
 
-  return res.status(200).json({
+  return res
+  .status(200)
+  .cookie("accessToken", accessToken, options)
+  .cookie("refreshToken", refreshToken, options)
+  .json({
     success: true,
     message: "User login successful",
     body: {
@@ -39,4 +72,57 @@ export const userLogin = asyncHandler(async (req, res) => {
       role: user.role
     }
   })
+})
+
+const refreshAccessToken = asyncHandler(async (req, res) => {
+    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+
+    if (!incomingRefreshToken) {
+        throw new ApiError(401, "unauthorized request")
+    }
+
+    try {
+        const decodedToken = jwt.verify(
+            incomingRefreshToken,
+            process.env.REFRESH_TOKEN_SECRET
+        )
+    
+        const user = await User.findById(decodedToken?._id)
+    
+        if (!user) {
+            throw new ApiError(401, "Invalid refresh token")
+        }
+    
+        if (incomingRefreshToken !== user?.refreshToken) {
+            throw new ApiError(401, "Refresh token is expired or used")
+            
+        }
+    
+        const options = {
+            httpOnly: true,
+            secure: true
+        }
+    
+        const {accessToken, newRefreshToken} = await generateAccessAndRefereshTokens(user._id)
+    
+        return res
+        .status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", newRefreshToken, options)
+        .json(
+            new ApiResponse(
+                200, 
+                {accessToken, refreshToken: newRefreshToken},
+                "Access token refreshed"
+            )
+        )
+    } catch (error) {
+        console.log("Error message",error)
+
+        res.status(404).json({
+          success: false,
+          message: `error regenerating access tokens , ${error}`
+        })
+    }
+
 })
