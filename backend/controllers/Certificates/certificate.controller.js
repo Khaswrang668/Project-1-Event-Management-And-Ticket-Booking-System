@@ -1,8 +1,8 @@
 import { Attendances } from "../../models/attendance.model.js";
-import { Tickets } from "../../models/ticket.model";
+import { Tickets } from "../../models/ticket.model.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { randomUUID } from 'crypto';
-import { generCertificate } from "./generateCertificate.js";
+import { generateCertificate } from "./generateCertificate.js";
 
 export const certificateController = asyncHandler(async (req,res)=>{
     const {ticketId,attendanceId} = req.body;

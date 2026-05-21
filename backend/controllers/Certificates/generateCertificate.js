@@ -1,7 +1,7 @@
-import { Tickets } from "../../models/ticket.model"
-import { Bookings } from "../../models/booking.model"
+import { Tickets } from "../../models/ticket.model.js"
+import { Bookings } from "../../models/booking.model.js"
 import puppeteer  from "puppeteer"
-import { getHTMLtemplate } from "getCertificate.temp.HTML.js"
+import { getHTMLtemplate } from "./getCertificate.temp.HTML.js"
 import { Users } from "../../models/user.model"
 import { Events } from "../../models/event.model"
 

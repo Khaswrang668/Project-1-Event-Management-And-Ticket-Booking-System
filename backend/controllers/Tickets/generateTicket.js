@@ -10,14 +10,14 @@ import { Events } from "../../models/event.model.js";
 import { Tickets } from "../../models/ticket.model.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ticketTemplate } from "./ticket.HTML.template.js"
-import { generateQRcode } from "./QRcodeEncoding.js"
+import { generateQRCode } from "./QRcodeEncoding.js"
 
 export const generateTicketPDF = asyncHandler(async (ticketId,eventId,qrToken)=>{
    const ticket = await Tickets.findById(ticketId);
    const event = await Events.findById(eventId);
 
    //Generate Qrcode buffer 
-   const qrData = generateQRCode(ticketId,qrToken)
+   const qrData = await generateQRCode(ticketId,qrToken)
 
    //Create the HTML template for ticket and pupeeter
    const template = ticketTemplate(ticket,event,qrData)

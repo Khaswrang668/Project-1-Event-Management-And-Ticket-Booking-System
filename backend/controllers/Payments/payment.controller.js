@@ -35,8 +35,6 @@ export const createPaymentRecord = asyncHandler(async (req, res) => {
             event.price * ticketCount
         );
         
-        await payment.save({ session });
-        
         //3.Update booking status if payment was successful
         if(paymentResponse) changeBookingStatus(bookingId,'Confirmed')
 

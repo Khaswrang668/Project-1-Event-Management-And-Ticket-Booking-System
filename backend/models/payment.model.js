@@ -10,8 +10,8 @@ const paymentSchema = new mongoose.Schema({
         enum:['UPI','Cash','Card'],
         required: true
     },
-    VerifiedAt:{
-        type: Date,
+    verifiedAt:{
+        type: Date
     },
     Status:{
         type: String,

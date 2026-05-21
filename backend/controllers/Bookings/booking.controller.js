@@ -50,8 +50,6 @@ export const createBooking = asyncHandler(async (req,res)=>{
     bookingStatus: 'Pending'
    })
    
-   await event.save();
-
    //7.send user response : Booking successful
    res.status(200).json({
     success: true,
