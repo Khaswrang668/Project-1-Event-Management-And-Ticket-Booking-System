@@ -1,11 +1,11 @@
-import { Attendences } from "../../models/attendence.model";
+import { Attendances } from "../../models/attendance.model.js";
 import { Tickets } from "../../models/ticket.model";
-import { asyncHandler } from "../../utils/asyncHandler";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 import { randomUUID } from 'crypto';
 import { generCertificate } from "./generateCertificate.js";
 
 export const certificateController = asyncHandler(async (req,res)=>{
-    const {ticketId,attendenceId} = req.body;
+    const {ticketId,attendanceId} = req.body;
 
     const ticket = await Tickets.findById(ticketId).populate('booking');
 
@@ -23,15 +23,15 @@ export const certificateController = asyncHandler(async (req,res)=>{
         })
     }
     
-    const attendence = await Attendences.findById(attendenceId);
-    if(!attendence){
+    const attendance = await Attendances.findById(attendanceId);
+    if(!attendance){
         return res.status(404).json({
             success: false,
             message: "No attendence records found in databases"
         })
     }
     
-    if(attendence.scanResult == "Invalid"){
+    if(attendance.scanResult == "Invalid"){
         return res.status(404).json({
             success: false,
             message: 'Invalid scan results of ticket'

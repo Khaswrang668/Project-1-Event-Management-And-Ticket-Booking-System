@@ -1,4 +1,4 @@
-import asyncHandler from './utils/asyncHandler.js'
+import { asyncHandler } from './utils/asyncHandler.js'
 import { Users } from './models/user.model.js'
 import bcrypt from 'bcrypt'
 

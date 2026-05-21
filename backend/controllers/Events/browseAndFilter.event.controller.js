@@ -1,5 +1,5 @@
 import { Events } from '../../models/event.model.js';
-import asyncHandler from './utils/asyncHandler.js';
+import { asyncHandler } from '../../utils/asyncHandler.js';
 
 export const browseAndFilter = asyncHandler(async (req, res) => {
   // Destructure from req.query (GET requests are standard for search)
@@ -31,7 +31,7 @@ export const browseAndFilter = asyncHandler(async (req, res) => {
   if (startTime || endTime) {
     query.startTime = {};
     if (startTime) query.startTime.$gte = new Date(startTime);
-    if (endTime) query.startTime.$lte = new Date(endTime);
+    if (endTime) query.endTime.$lte = new Date(endTime);//Fixed: startTime.$lte to endTime.$lte 
   }
 
   // Pagination & Execution

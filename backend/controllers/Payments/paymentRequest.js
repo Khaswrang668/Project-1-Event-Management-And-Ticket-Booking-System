@@ -1,7 +1,6 @@
 import { randomUUID } from 'crypto'
 import axios from 'axios'
 import { getPhonePeAuthToken } from './getAuthToken.phonePe.js'
-import { randomUUID } from 'crypto'
 
 //Create a phonePe payment request
 export const paymentRequest = async (paymentAmount)=>{

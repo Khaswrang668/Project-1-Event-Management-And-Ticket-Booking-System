@@ -1,5 +1,5 @@
 import { Events } from '../../models/event.model.js'; // Ensure correct path
-import asyncHandler from '../../utils/asyncHandler.js';
+import { asyncHandler }  from '../../utils/asyncHandler.js';
 
 export const updateEvent = asyncHandler(async (req, res) => {
     const {
@@ -21,8 +21,8 @@ export const updateEvent = asyncHandler(async (req, res) => {
     event.category = category || event.category;
     event.mode = mode || event.mode;
     event.venue = venue || event.venue;
-    event.price = price || event.price;
-    event.seatLimit = seatLimit || event.seatLimit;
+    event.price = price ?? event.price; //if price is 0(free event) it will be flagged as false .Use nullish cosacling
+    event.seatLimit = seatLimit ?? event.seatLimit; //same with seatLimit
     event.startTime = startTime || event.startTime;
     event.endTime = endTime || event.endTime;
     event.status = status || event.status;

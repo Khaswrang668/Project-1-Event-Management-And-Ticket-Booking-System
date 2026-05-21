@@ -51,7 +51,7 @@ export const generateTicket = asyncHandler(async (req,res)=>{
     const pdfData =  generateTicketPDF(ticket._id,eventId,qrToken);
     
     res.set({
-        "Content-type": "application/pdf",
+        "Content-Type": "application/pdf",
         "Content-Disposition": "inline; filename=ticket.pdf",
         "Content-Length": pdfData.length
     });
@@ -61,7 +61,7 @@ export const generateTicket = asyncHandler(async (req,res)=>{
 });
 
 export const getTicketData = asyncHandler(async (req,res)=>{
-    const ticketId = req.body;
+    const ticketId = req.body.ticketId;
 
     const ticket = await Tickets.findById(ticketId);
     
@@ -76,7 +76,7 @@ export const getTicketData = asyncHandler(async (req,res)=>{
     const event = await Events.findById(ticket.event);
     
     //Check if ticket has expired yet
-    if(event.endTime > Date.now()){
+    if(event.endTime < Date.now()){
         return res.status(404).json({
             success: false,
             message: "Ticket has expired"

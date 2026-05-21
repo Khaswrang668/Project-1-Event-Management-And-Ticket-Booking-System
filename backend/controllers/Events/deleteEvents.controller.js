@@ -1,5 +1,5 @@
 import { Events } from '../../model/event.js';
-import asyncHandler from './utils/asyncHandler.js';
+import { asyncHandler } from '../../utils/asyncHandler.js';
 
 export const deleteEvents = asyncHandler(async (req, res) => {
     const eventId = req.body._id || req.params.id;

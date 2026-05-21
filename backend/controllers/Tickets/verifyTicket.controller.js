@@ -1,5 +1,5 @@
 import { Tickets } from "../../models/ticket.model.js";
-import { Attendences } from "../../models/attendence.model.js";
+import { Attendances } from "../../models/attendance.model.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 
 export const verifyTicket = asyncHandler(async(req,res)=>{
@@ -28,7 +28,7 @@ export const verifyTicket = asyncHandler(async(req,res)=>{
     ticket.isCheckedInAt = Date.now();
 
     //create an attendence log
-    const attendence = await Attendences.create({
+    const attendance = await Attendances.create({
         ticket: ticket._id,
         scanTime: ticket.isCheckedInAt,
         scanResult: 'Valid'

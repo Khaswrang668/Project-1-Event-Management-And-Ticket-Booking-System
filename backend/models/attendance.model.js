@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const attendenceSchema = new mongoose.Schema({
+const attendanceSchema = new mongoose.Schema({
     ticket:{
         type: mongoose.Schema.Types.ObjectId,
         required: true
@@ -17,4 +17,4 @@ const attendenceSchema = new mongoose.Schema({
     }
 },{timestamps: true})
 
-export const Attendences = mongoose.model('Attendences',attendenceSchema)
+export const Attendances = mongoose.model('Attendances',attendanceSchema)
