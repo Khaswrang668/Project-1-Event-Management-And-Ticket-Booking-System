@@ -1,7 +1,7 @@
 import { Events } from '../../models/event.model.js'; // Ensure correct path
 import { asyncHandler }  from '../../utils/asyncHandler.js';
 
-export const updateEvent = asyncHandler(async (req, res) => {
+export const updateEvents = asyncHandler(async (req, res) => {
     const {
         _id,
         title, category, mode, venue, 
