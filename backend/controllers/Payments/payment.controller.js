@@ -24,12 +24,12 @@ export const createPaymentRecord = asyncHandler(async (req, res) => {
         }
         
         //2.Create a payment object
-        const payment = await Payments.create({
+        const payment = await Payments.create([{
             booking: bookingId,
             paymentMethod: paymentMethod,
             verifiedAt: Date.now(),
             status: 'Pending'
-        }, { session });
+        }], { session });
         
         const paymentResponse = await paymentRequest(
             event.price * ticketCount
