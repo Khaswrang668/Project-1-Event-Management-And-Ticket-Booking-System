@@ -48,14 +48,17 @@ export const generateTicket = asyncHandler(async (req,res)=>{
     })
 
     //insert here actual ticket PDF generation logic here later
-    const pdfData =  generateTicketPDF(ticket._id,eventId,qrToken);
+    const pdfData =  await generateTicketPDF(ticket._id,eventId,qrToken);
     
     res.set({
         "Content-Type": "application/pdf",
         "Content-Disposition": "inline; filename=ticket.pdf",
         "Content-Length": pdfData.length
     });
-
+    
+    //So pdfData is a Promise object, not a Buffer. pdfData.length will be undefined and res.send
+    // (pdfData) will send nothing useful. Add await.
+    
     //send res back to user
     res.send(pdfData);
 });

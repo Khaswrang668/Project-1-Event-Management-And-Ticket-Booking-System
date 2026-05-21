@@ -2,8 +2,8 @@ import { Tickets } from "../../models/ticket.model.js"
 import { Bookings } from "../../models/booking.model.js"
 import puppeteer  from "puppeteer"
 import { getHTMLtemplate } from "./getCertificate.temp.HTML.js"
-import { Users } from "../../models/user.model"
-import { Events } from "../../models/event.model"
+import { Users } from "../../models/user.model.js"
+import { Events } from "../../models/event.model.js"
 
 export const generateCertificate = async(certificateId,ticketId,bookingId)=>{
 

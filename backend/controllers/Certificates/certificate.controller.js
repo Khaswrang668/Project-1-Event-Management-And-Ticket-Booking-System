@@ -42,7 +42,7 @@ export const certificateController = asyncHandler(async (req,res)=>{
     const certificateId = randomUUID();
 
     //service for genearating downloadable certificate pdf
-    const certificatePdf = generateCertificate(certificateId,ticketId,ticket.booking._id);
+    const certificatePdf = await generateCertificate(certificateId,ticketId,ticket.booking._id);
     
     res.set({
         "Content-type": "application/pdf",

@@ -8,11 +8,10 @@
 import puppeteer from "puppeteer";
 import { Events } from "../../models/event.model.js";
 import { Tickets } from "../../models/ticket.model.js";
-import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ticketTemplate } from "./ticket.HTML.template.js"
 import { generateQRCode } from "./QRcodeEncoding.js"
 
-export const generateTicketPDF = asyncHandler(async (ticketId,eventId,qrToken)=>{
+export const generateTicketPDF = async (ticketId,eventId,qrToken)=>{
    const ticket = await Tickets.findById(ticketId);
    const event = await Events.findById(eventId);
 
@@ -41,5 +40,5 @@ export const generateTicketPDF = asyncHandler(async (ticketId,eventId,qrToken)=>
    catch(error){
       console.log("Error has ocurred:",error)
    }
-})
+}
 
