@@ -1,8 +1,8 @@
-import { resolveSoa } from "dns";
 import { Attendences } from "../../models/attendence.model";
 import { Tickets } from "../../models/ticket.model";
 import { asyncHandler } from "../../utils/asyncHandler";
-import randomUUID from 'crypto';
+import { randomUUID } from 'crypto';
+import { generCertificate } from "./generateCertificate.js";
 
 export const certificateController = asyncHandler(async (req,res)=>{
     const {ticketId,attendenceId} = req.body;

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const ticketSchema = mongoose.Schema({
+const ticketSchema = new mongoose.Schema({
     booking:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"Bookings"

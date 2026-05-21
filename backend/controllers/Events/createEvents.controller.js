@@ -1,4 +1,4 @@
-import { Events } from './models/event.model.js';
+import { Events } from '../../models/event.model.js';
 import asyncHandler from './utils/asyncHandler.js';
 
 export const createEvents = asyncHandler(async (req, res) => {

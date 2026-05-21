@@ -1,6 +1,6 @@
 import { Bookings } from '../../models/booking.model.js'
 
-export const changeBookingStatus = asyncHandler( async(bookingId,status)=>{
+export const changeBookingStatus = async(bookingId,status)=>{
 
    if(status != 'Pending' && status!= 'Cancelled' && status!= 'Confirmed'){
     return res.status(404).json({
@@ -23,10 +23,5 @@ export const changeBookingStatus = asyncHandler( async(bookingId,status)=>{
     { $set: {bookingStatus: status}}
    )
    
-   await Bookings.save();
-   
-   res.status(200).json({
-    success: true,
-    message: "Booking status successfully updated"
-   })
-})
+   await booking.save();
+}

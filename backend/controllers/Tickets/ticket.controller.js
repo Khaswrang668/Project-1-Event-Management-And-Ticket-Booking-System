@@ -44,8 +44,7 @@ export const generateTicket = asyncHandler(async (req,res)=>{
         event: event,
         participantName: booking.user.username,
         qrToken: qrToken,
-        isCheckedIn: false,
-        isCheckedInAt: Date.now()
+        isCheckedIn: false
     })
 
     //insert here actual ticket PDF generation logic here later
@@ -54,11 +53,11 @@ export const generateTicket = asyncHandler(async (req,res)=>{
     res.set({
         "Content-type": "application/pdf",
         "Content-Disposition": "inline; filename=ticket.pdf",
-        "Content-Length": pdfBuffer.length
+        "Content-Length": pdfData.length
     });
 
     //send res back to user
-    res.send(pdfBuffer);
+    res.send(pdfData);
 });
 
 export const getTicketData = asyncHandler(async (req,res)=>{

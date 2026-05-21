@@ -1,11 +1,12 @@
 import { Tickets } from "../../models/ticket.model"
 import { Bookings } from "../../models/booking.model"
-import { Puppeteer } from "puppeteer-core"
+import puppeteer  from "puppeteer"
 import { getHTMLtemplate } from "getCertificate.temp.HTML.js"
 import { Users } from "../../models/user.model"
 import { Events } from "../../models/event.model"
 
-export const generCertificate = async(certificateId,ticketId,bookingId)=>{
+export const generateCertificate = async(certificateId,ticketId,bookingId)=>{
+
     const ticket = await Tickets.findById(ticketId);
     const booking = await Bookings.findById(bookingId).populate('user').populate('event');
     const user = await Users.findById(booking.user._id);

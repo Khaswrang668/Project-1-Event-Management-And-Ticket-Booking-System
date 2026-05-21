@@ -5,7 +5,7 @@
 //with ticketId as input -> final downloadable pdf back to browser
 //use puppeter instead of pdfkit
 
-import puppeteer from "puppeteer-core";
+import puppeteer from "puppeteer";
 import { Events } from "../../models/event.model.js";
 import { Tickets } from "../../models/ticket.model.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
@@ -17,7 +17,7 @@ export const generateTicketPDF = asyncHandler(async (ticketId,eventId,qrToken)=>
    const event = await Events.findById(eventId);
 
    //Generate Qrcode buffer 
-   const qrData = generateQRcode(ticketId,qrToken)
+   const qrData = generateQRCode(ticketId,qrToken)
 
    //Create the HTML template for ticket and pupeeter
    const template = ticketTemplate(ticket,event,qrData)

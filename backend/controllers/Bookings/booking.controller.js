@@ -49,7 +49,14 @@ export const createBooking = asyncHandler(async (req,res)=>{
    })
    
    //6. Reserve seats and decrement seatLimit
-   event.seatLimits -= ticketCount;
+   /*if(event.seatLimit < ticketCount) {
+     return res.status(404).json({
+        success: false,
+        message: "No seats available for booking reservation"
+     })
+   }*/
+
+   event.seatLimit -= ticketCount;
 
    await event.save();
 

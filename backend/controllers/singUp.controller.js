@@ -26,7 +26,7 @@ export const signUp = asyncHandler(async (req, res) => {
   const user = await Users.create({
     username,
     email,
-    hashedPassword,
+    password: hashedPassword,
     phone,
     role
   })

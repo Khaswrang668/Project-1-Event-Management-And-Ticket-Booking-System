@@ -1,6 +1,3 @@
-import { asyncHandler } from "../../utils/asyncHandler";
-import QRcode from 'qrcode'
-
 import QRCode from "qrcode";
 
 export const generateQRCode = async (ticketId, qrToken) => {

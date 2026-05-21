@@ -24,26 +24,26 @@ export const createPaymentRecord = asyncHandler(async (req, res) => {
         }
         
         //2.Create a payment object
-        const payment = new Payments.create({
+        const payment = await Payments.create({
             booking: bookingId,
             paymentMethod: paymentMethod,
-            verifiedAt: Date.now,
+            verifiedAt: Date.now(),
             status: 'Pending'
         });
         
         const paymentResponse = await paymentRequest(
-            updatedEvent.price * ticketCount
+            event.price * ticketCount
         );
-
+        
         await payment.save({ session });
         
+        //3.Update booking status if payment was successful
+        if(paymentResponse) changeBookingStatus(bookingId,'Confirmed')
+
         // 4. Commit DB transaction FIRST
         await session.commitTransaction();
         session.endSession();
         
-        
-        //3.Update booking status if payment was successful
-        if(paymentResponse) changeBookingStatus(bookingId,'Confirmed')
 
         const redirectUrl = paymentResponse.redirectUrl;
         const merchantOrderId = paymentResponse.merchantOrderId;

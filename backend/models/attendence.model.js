@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 
 const attendenceSchema = new mongoose.Schema({
-    ticketId:{
-        type: Number,
+    ticket:{
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     scanTime:{

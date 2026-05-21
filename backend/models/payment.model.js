@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 
-const paymentSchema = mongoose.model({
+const paymentSchema = new mongoose.Schema({
     booking:{
-        type: mongoose.Types.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Bookings"
     },
     paymentMethod:{
