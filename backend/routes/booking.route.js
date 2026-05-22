@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import { createBooking } from "../controllers/Bookings/booking.controller.js";
 
-import { verifyJWT } from "../middlewares/authMiddleware";
+import { verifyJWT } from "../middlewares/authMiddleware.js";
 
 const router = Router()
 

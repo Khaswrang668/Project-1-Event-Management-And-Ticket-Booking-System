@@ -12,7 +12,7 @@ app.use(cookieParser())
 //import all routes
 import userRouter from './routes/user.route.js'
 import eventRouter from './routes/event.route.js'
-import bookingRouter from './routes/boooking.route.js'
+import bookingRouter from './routes/booking.route.js'
 import paymentRouter from './routes/payment.route.js'
 import ticketRouter from './routes/ticket.route.js'
 import certificateRouter from './routes/certificate.route.js'
