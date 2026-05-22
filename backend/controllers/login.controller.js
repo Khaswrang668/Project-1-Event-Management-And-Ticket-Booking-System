@@ -2,11 +2,10 @@ import { asyncHandler } from '../utils/asyncHandler.js'
 import { Users } from '../models/user.model.js'
 import jwt from "jsonwebtoken"
 import bcrypt from 'bcrypt'
-import { PollingOptions } from 'puppeteer-core'
 
 const generateAccessAndRefereshTokens = async(userId) =>{
     try {
-        const user = await User.findById(userId)
+        const user = await Users.findById(userId)
         const accessToken = user.generateAccessToken()
         const refreshToken = user.generateRefreshToken()
 

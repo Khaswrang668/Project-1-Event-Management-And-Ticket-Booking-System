@@ -31,7 +31,7 @@ export const verifyTicket = asyncHandler(async(req,res)=>{
     const attendance = await Attendances.create({
         ticket: ticket._id,
         scanTime: ticket.isCheckedInAt,
-        scanResult: 'Valid'
+        scanResult: 'valid'
     })
 
     await ticket.save();

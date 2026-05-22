@@ -3,7 +3,7 @@ import { Users } from "../../models/user.model.js";
 import { asyncHandler } from '../../utils/asyncHandler.js';
 import bcrypt from 'bcrypt';
 
-export const getPendingEvents = asyncHanlder(async (req,res)=>{
+export const getPendingEvents = asyncHandler(async (req,res)=>{
     //This controller only returns list of pending events to admin
     //verifies if the person trying to access is admin
     //i.e. event.adminApproval = false
@@ -14,14 +14,14 @@ export const getPendingEvents = asyncHanlder(async (req,res)=>{
     const user = await Users.findById(userId);
     
     if(!user){
-        return res.status.json({
+        return res.status(404).json({
             success: true,
             message: "User not found"
         })
     }
 
     if(user.role != "Admin"){
-        return res.status.json({
+        return res.status(404).json({
             success: false,
             message: "The user is not an Admin"
         })

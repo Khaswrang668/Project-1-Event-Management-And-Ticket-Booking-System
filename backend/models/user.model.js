@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import jwt from "jsonwebtoke"
 
 const userSchema = new mongoose.Schema({
 username:{
