@@ -7,7 +7,7 @@ export const browseAndFilter = asyncHandler(async (req, res) => {
     title, maxPrice, minPrice, category, 
     venue, mode, status, startTime, endTime,
     page = 1, limit = 10 
-  } = req.query;
+  } = req.body;
 
   let query = {};
 

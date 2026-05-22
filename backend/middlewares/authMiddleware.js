@@ -8,7 +8,10 @@ export const verifyJWT = asyncHandler(async(req, _, next) => {
         
         // console.log(token);
         if (!token) {
-            throw new ApiError(401, "Unauthorized request")
+            return res.status(404).json({
+                success: false,
+                message: 'Unauthorized token'
+            })
         }
     
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
@@ -16,8 +19,10 @@ export const verifyJWT = asyncHandler(async(req, _, next) => {
         const user = await User.findById(decodedToken?._id).select("-password -refreshToken")
     
         if (!user) {
-            
-            throw new ApiError(401, "Invalid Access Token")
+            return res.status(404).json({
+                success: false,
+                message: "User doesn't exist-unable to verify tokens"
+            })
         }
     
         req.user = user;
@@ -27,7 +32,7 @@ export const verifyJWT = asyncHandler(async(req, _, next) => {
         
         res.status(404).json({
             success: false,
-            message: `Error in verifying thr tokens,${error}`
+            message: `Error in verifying the tokens,${error}`
         })
     }
     

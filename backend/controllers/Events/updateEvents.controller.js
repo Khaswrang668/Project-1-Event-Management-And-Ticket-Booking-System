@@ -3,10 +3,11 @@ import { asyncHandler }  from '../../utils/asyncHandler.js';
 
 export const updateEvents = asyncHandler(async (req, res) => {
     const {
-        _id,
         title, category, mode, venue, 
         price, seatLimit, startTime, endTime, status
     } = req.body;
+    
+    const _id = req.params._id;
 
     const event = await Events.findById(_id);
 

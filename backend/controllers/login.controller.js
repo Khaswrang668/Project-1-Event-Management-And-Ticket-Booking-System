@@ -78,7 +78,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
 
     if (!incomingRefreshToken) {
-        throw new ApiError(401, "unauthorized request")
+        return res.status(404).json({
+          success: false,
+          message: "Unauthorized request"
+        })
     }
 
     try {
@@ -90,12 +93,17 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         const user = await User.findById(decodedToken?._id)
     
         if (!user) {
-            throw new ApiError(401, "Invalid refresh token")
+            return res.status(404).json({
+              success: false,
+              message: "User doesn't exist"
+            })
         }
     
         if (incomingRefreshToken !== user?.refreshToken) {
-            throw new ApiError(401, "Refresh token is expired or used")
-            
+            return res.status(404).json({
+              success: false,
+              mesage: "Inavlid refresh token"
+            })
         }
     
         const options = {
@@ -109,13 +117,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         .status(200)
         .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", newRefreshToken, options)
-        .json(
-            new ApiResponse(
-                200, 
-                {accessToken, refreshToken: newRefreshToken},
-                "Access token refreshed"
-            )
-        )
+        .json({
+           success: true,
+           message: "access token refreshed successfully"
+        })
     } catch (error) {
         console.log("Error message",error)
 
