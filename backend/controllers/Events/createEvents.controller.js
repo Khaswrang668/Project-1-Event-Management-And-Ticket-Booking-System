@@ -3,7 +3,6 @@ import { asyncHandler } from '../../utils/asyncHandler.js';
 
 export const createEvents = asyncHandler(async (req, res) => {
     const { 
-        organizerId, // Usually passed from auth middleware (req.user._id)
         title, 
         category, 
         mode, 
@@ -14,7 +13,9 @@ export const createEvents = asyncHandler(async (req, res) => {
         startTime, 
         endTime 
     } = req.body;
-
+    
+    const organizerId = req.user._id;
+    
     if (!organizerId || !title || !category || !mode || !venue || !price || !startTime ||!endTime) {
         return res
         .status(400)

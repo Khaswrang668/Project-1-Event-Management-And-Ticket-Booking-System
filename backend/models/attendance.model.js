@@ -13,7 +13,7 @@ const attendanceSchema = new mongoose.Schema({
         type: String,
         enum: ['valid','invalid'],
         required: true,
-        default: 'Invalid'
+        default: 'invalid'
     }
 },{timestamps: true})
 

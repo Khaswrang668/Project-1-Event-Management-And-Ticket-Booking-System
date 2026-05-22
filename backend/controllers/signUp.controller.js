@@ -21,6 +21,13 @@ export const signUp = asyncHandler(async (req, res) => {
     })
   }
   
+  if(password.length < 8){
+    return res.status(404).json({
+      success: false,
+      message: "The password must be atleast 8 carachters"
+    })
+  }
+  
   const hashedPassword = await bcrypt.hash(password,10)
   
   const user = await Users.create({

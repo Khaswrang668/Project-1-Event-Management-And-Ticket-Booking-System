@@ -14,8 +14,14 @@ export const createBooking = asyncHandler(async (req,res)=>{
         message: "Event doesn't exists"
     })
    }
+    
+   //2.Prevent duplicate bookings
+   const existingBooking = await Bookings.findOne({
+    user: userId,
+    event: eventId
+   })
 
-    //2.Check if seats are available and reserve seats
+    //3.Check if seats are available and reserve seats
     // Changed the code to prevent racing condition
    const updated = await Events.findOneAndUpdate(
     { _id: eventId, seatLimit: { $gte: ticketCount } },
@@ -25,11 +31,6 @@ export const createBooking = asyncHandler(async (req,res)=>{
 
    if (!updated) return res.status(400).json({ message: "No seats available" })
 
-   //3.Prevent duplicate bookings
-   const existingBooking = await Bookings.findOne({
-    user: userId,
-    event: eventId
-   })
 
    if(existingBooking){
     return res.status(404).json({

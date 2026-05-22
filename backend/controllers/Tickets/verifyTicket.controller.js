@@ -16,14 +16,13 @@ export const verifyTicket = asyncHandler(async(req,res)=>{
         })
     }
 
-    /*if(ticket.isCheckedIn){
+    if(ticket.isCheckedIn){
         return res.status(404).json({
             success: false,
             message: "Tikcet is already used"
         })
-    } -> actually keep it simple tbh. isCheckedIn is false by default in
-      the Schema but gets updatd to true when ticket is verified*/
-
+    } 
+    
     ticket.isCheckedIn = true;
     ticket.isCheckedInAt = Date.now();
 
