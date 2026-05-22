@@ -45,6 +45,10 @@ const eventSchema = new mongoose.Schema({
     endTime:{
         type: Date,
         required: true
+    },
+    adminApproval:{
+        type: Boolean,
+        default: false
     }
 },{timestamps: true})
 

@@ -20,7 +20,7 @@ export const createEvents = asyncHandler(async (req, res) => {
         .status(400)
         .json({ message: "Some fields are missing" });
     }
-
+    
     const newEvent = await Events.create({
         organizer: organizerId,
         title,
@@ -31,7 +31,8 @@ export const createEvents = asyncHandler(async (req, res) => {
         status,
         price,
         startTime,
-        endTime
+        endTime,
+        adminApproval: false
     });
 
     res.status(201).json({

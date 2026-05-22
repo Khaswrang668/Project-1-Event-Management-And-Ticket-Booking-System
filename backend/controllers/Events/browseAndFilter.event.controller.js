@@ -33,6 +33,9 @@ export const browseAndFilter = asyncHandler(async (req, res) => {
     if (startTime) query.startTime.$gte = new Date(startTime);
     if (endTime) query.endTime.$lte = new Date(endTime);//Fixed: startTime.$lte to endTime.$lte 
   }
+  
+  //Only admin approved events should be accessbile by the users
+  query.adminApproval = true
 
   // Pagination & Execution
   const skip = (Number(page) - 1) * Number(limit);
