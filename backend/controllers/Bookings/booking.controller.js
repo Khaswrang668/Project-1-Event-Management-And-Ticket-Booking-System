@@ -3,8 +3,9 @@ import { Bookings } from "../../models/booking.model.js";
 import { Events } from "../../models/event.model.js";
 
 export const createBooking = asyncHandler(async (req,res)=>{
-   const {userId, eventId, ticketCount } = req.body;
-   
+   const { eventId, ticketCount } = req.body;
+   const userId = req.user._id;
+
    //1.Check event's existence
    const event = await Events.findById(eventId);
 
@@ -22,7 +23,7 @@ export const createBooking = asyncHandler(async (req,res)=>{
    })
 
     if(existingBooking){
-    return res.status(404).json({
+    return res.status(409).json({
         success: false,
         message: "Booking already exists"
     })
@@ -50,7 +51,7 @@ export const createBooking = asyncHandler(async (req,res)=>{
    })
    
    //7.send user response : Booking successful
-   res.status(200).json({
+   res.status(201).json({
     success: true,
     message: "Booking successfully created",
     data: newBooking
