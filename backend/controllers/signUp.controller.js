@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import { asyncHandler } from '../utils/asyncHandler.js'
 
 export const signUp = asyncHandler(async (req, res) => {
-  const { username, email, password, phone, role } = req.body
+  const { username, email, password, phone , role} = req.body
 
   if (!username || !email || !password || !phone || !role) {
     return res.status(400).json({
@@ -35,7 +35,7 @@ export const signUp = asyncHandler(async (req, res) => {
     email,
     password: hashedPassword,
     phone,
-    role
+    role: 'User'
   })
 
   return res.status(201).json({

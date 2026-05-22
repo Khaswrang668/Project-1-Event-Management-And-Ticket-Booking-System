@@ -15,7 +15,7 @@ const generateAccessAndRefereshTokens = async(userId) =>{
         return {accessToken, refreshToken}
     } catch (error) {
         console.log("Error generating JWT tokens",error)
-        return error;
+        throw error;
     }
 }
 
@@ -97,7 +97,7 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
         if (incomingRefreshToken !== user?.refreshToken) {
             return res.status(404).json({
               success: false,
-              mesage: "Inavlid refresh token"
+              mesage: "Invalid refresh token"
             })
         }
     
@@ -106,7 +106,7 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
             secure: true
         }
     
-        const {accessToken, newRefreshToken} = await generateAccessAndRefereshTokens(user._id)
+        const {accessToken, refreshToken: newRefreshToken} = await generateAccessAndRefereshTokens(user._id)
     
         return res
         .status(200)

@@ -10,7 +10,7 @@ import "dotenv/config"
 
 export const createPaymentRecord = asyncHandler(async (req, res) => {
     const { eventId, bookingId , ticketCount, paymentMethod } = req.body;
-    const userId = req.params._id;
+    const userId = req.user._id;
 
     const session = await mongoose.startSession();
     session.startTransaction();
