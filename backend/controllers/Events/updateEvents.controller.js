@@ -6,8 +6,8 @@ export const updateEvents = asyncHandler(async (req, res) => {
         title, category, mode, venue, 
         price, seatLimit, startTime, endTime, status
     } = req.body;
-    
-    const _id = req.params._id;
+
+    const _id = req.params.id;
 
     const event = await Events.findById(_id);
 

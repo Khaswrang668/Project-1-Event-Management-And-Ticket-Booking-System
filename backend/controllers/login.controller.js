@@ -15,11 +15,7 @@ const generateAccessAndRefereshTokens = async(userId) =>{
         return {accessToken, refreshToken}
     } catch (error) {
         console.log("Error generating JWT tokens",error)
-
-        res.status(404).json({
-          success: false,
-          message: `Failed to generate access and refresh tokens, ${error}`
-        })
+        return error;
     }
 }
 
@@ -73,7 +69,7 @@ export const userLogin = asyncHandler(async (req, res) => {
   })
 })
 
-const refreshAccessToken = asyncHandler(async (req, res) => {
+export const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
 
     if (!incomingRefreshToken) {
@@ -89,7 +85,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
             process.env.REFRESH_TOKEN_SECRET
         )
     
-        const user = await User.findById(decodedToken?._id)
+        const user = await Users.findById(decodedToken?._id)
     
         if (!user) {
             return res.status(404).json({

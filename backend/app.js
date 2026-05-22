@@ -18,11 +18,11 @@ import ticketRouter from './routes/ticket.route.js'
 import certificateRouter from './routes/certificate.route.js'
 
 //route declaration
-app.use("api/v1/users",userRouter)
-app.use("api/v1/events",eventRouter)
-app.use("api/v1/bookings",bookingRouter)
-app.use("api/v1/payments",paymentRouter)
-app.use("api/v1/tickets",ticketRouter)
-app.use("api/v1/certificates",certificateRouter)
+app.use("/api/v1/users",userRouter)
+app.use("/api/v1/events",eventRouter)
+app.use("/api/v1/bookings",bookingRouter)
+app.use("/api/v1/payments",paymentRouter)
+app.use("/api/v1/tickets",ticketRouter)
+app.use("/api/v1/certificates",certificateRouter)
 
 export {app}
