@@ -7,7 +7,7 @@ import { updateEvents } from "../controllers/Events/updateEvents.controller.js";
 import { getPendingEvents } from "../controllers/Events/adminApproval.event.controller.js";
 import { approveEvent } from "../controllers/Events/adminApproval.event.controller.js";
 
-import { verifyJWT } from "../middlewares/authMiddleware";
+import { verifyJWT } from "../middlewares/authMiddleware.js";
 
 const router = Router()
 
