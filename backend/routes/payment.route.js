@@ -1,4 +1,4 @@
-import { createPaymentRecord } from "../controllers/Payments/payment.controller.js";
+import { createPaymentRecord,manageWebhooks} from "../controllers/Payments/payment.controller.js";
 import { Router } from "express";
 
 import { verifyJWT } from "../middlewares/authMiddleware.js";
