@@ -13,11 +13,17 @@ const paymentSchema = new mongoose.Schema({
     verifiedAt:{
         type: Date
     },
-    Status:{
+    status:{
         type: String,
         enum: ['Pending','Approved','Rejected'],
         default: 'Pending',
         required: true
+    },
+    merchantOrderId:{
+        type: String
+    },
+    amount:{
+        type: Number
     }
 },{timestamps: true})
 

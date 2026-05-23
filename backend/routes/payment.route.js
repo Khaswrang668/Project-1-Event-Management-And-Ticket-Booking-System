@@ -5,6 +5,6 @@ import { verifyJWT } from "../middlewares/authMiddleware.js";
 
 const router = Router()
 
-router.route('/:id/payment-request').post(verifyJWT,createPaymentRecord)
+router.route('/:eventId/payment-request').post(verifyJWT,createPaymentRecord)
 
 export default router
