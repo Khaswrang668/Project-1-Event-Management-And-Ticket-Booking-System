@@ -1,5 +1,5 @@
-import { asyncHandler } from '../utils/asyncHandler.js'
-import { Users } from '../models/user.model.js'
+import { asyncHandler } from '../../utils/asyncHandler.js'
+import { Users } from '../../models/user.model.js'
 import jwt from "jsonwebtoken"
 import bcrypt from 'bcrypt'
 
