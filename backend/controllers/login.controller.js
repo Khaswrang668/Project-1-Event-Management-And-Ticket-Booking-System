@@ -126,3 +126,29 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 
 })
+
+export const logOut = asyncHandler(async(req,res)=>{
+
+  await Users.findByIdAndUpdate(
+  req.user._id,
+  {
+    $unset: {refreshToken: 1}
+  },
+  {
+    new: true
+  })
+
+  const options = {
+    httpOnly: true,
+    secure: true
+  }
+
+  return res
+  .status(200)
+  .clearCookie(accessToken,options)
+  .clearCookie(refreshToken,options)
+  .json({
+    success: true,
+    message: 'User is successfully logged out'
+  })
+})
