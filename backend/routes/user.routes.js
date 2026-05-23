@@ -1,6 +1,6 @@
 import express from 'express'
-import {userLogin,refreshAccessToken,logOut} from '../controllers/login.controller.js'
-import {signUp} from '../controllers/signUp.controller.js'
+import {userLogin,refreshAccessToken,logOut} from '../controllers/Users/login.controller.js'
+import {signUp} from '../controllers/Users/signUp.controller.js'
 import { verifyJWT } from '../middlewares/authMiddleware.js'
 //import { verifyJWT } from '../middlewares/authMiddleware.js'
 
