@@ -1,6 +1,6 @@
-import { Users } from '../models/user.model.js'
+import { Users } from '../../models/user.model.js'
 import bcrypt from 'bcrypt'
-import { asyncHandler } from '../utils/asyncHandler.js'
+import { asyncHandler } from '../../utils/asyncHandler.js'
 
 export const signUp = asyncHandler(async (req, res) => {
   const { username, email, password, phone , role} = req.body
