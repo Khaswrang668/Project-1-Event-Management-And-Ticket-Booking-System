@@ -8,7 +8,7 @@ export const verifyJWT = asyncHandler(async(req, res, next) => {
         
         // console.log(token);
         if (!token) {
-            return res.status(404).json({
+            return res.status(401).json({
                 success: false,
                 message: 'Unauthorized token'
             })
@@ -19,7 +19,7 @@ export const verifyJWT = asyncHandler(async(req, res, next) => {
         const user = await User.findById(decodedToken?._id).select("-password -refreshToken")
     
         if (!user) {
-            return res.status(404).json({
+            return res.status(401).json({
                 success: false,
                 message: "User doesn't exist-unable to verify tokens"
             })
