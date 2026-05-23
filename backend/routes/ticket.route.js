@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { generateTicket,verifyTicket,getTicketData } from "../controllers/Tickets/ticket.controller.js";
+import { generateTicket,getTicketData } from "../controllers/Tickets/ticket.controller.js";
+import { verifyTicket } from "../controllers/Tickets/verifyTicket.controller.js";
 
 import { verifyJWT } from "../middlewares/authMiddleware.js";
 

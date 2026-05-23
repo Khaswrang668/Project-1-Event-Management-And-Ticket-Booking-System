@@ -1,4 +1,4 @@
-function ticketTemplate(ticket,event,qrData) {
+export function ticketTemplate(ticket,event,qrData) {
 return`
 <!DOCTYPE html>
 <html lang="en">
