@@ -28,6 +28,9 @@ export const createPaymentRecord = asyncHandler(async (req, res) => {
     const booking = await Bookings.findOne({user: userId,event: eventId},null,{session});
 
     if(!booking){
+       await session.abortTransaction();
+       session.endSession();
+       
        return res.status(404).json({
         success: false,
         message: "No booking record found for this user"
