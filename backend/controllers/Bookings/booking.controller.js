@@ -29,10 +29,11 @@ export const createBooking = asyncHandler(async (req,res)=>{
     })
    }
 
-    //3.Check if seats are available and reserve seats
+    //3.Check if seats are available 
+    //Seat decrement only after payments are made
+    
    const updated = await Events.findOneAndUpdate(
     { _id: eventId, seatLimit: { $gte: ticketCount } },
-    { $inc: { seatLimit: -ticketCount } },
     { new: true }
    )
 

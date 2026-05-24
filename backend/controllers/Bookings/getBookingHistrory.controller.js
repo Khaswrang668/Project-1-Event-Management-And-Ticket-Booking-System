@@ -6,7 +6,7 @@ export const getMyBookingHistory = asyncHandler(async(req,res)=>{
 
     const book = await Bookings.find({user: userId});
     
-    if(!book){
+    if(!book.length){
         return res.status(404).json({
             success: false,
             message: "No bookings found"

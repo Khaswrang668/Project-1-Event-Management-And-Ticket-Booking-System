@@ -36,7 +36,7 @@ export const createPaymentRecord = asyncHandler(async (req, res) => {
         message: "No booking record found for this user"
        })
     }
-
+    
     //3.Intialize the payment gateway
     const paymentResponse = await paymentRequest(
         event.price * ticketCount
