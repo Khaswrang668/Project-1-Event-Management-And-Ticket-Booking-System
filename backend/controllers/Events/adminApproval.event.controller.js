@@ -26,8 +26,9 @@ export const getPendingEvents = asyncHandler(async (req,res)=>{
 export const approveEvent = asyncHandler(async(req,res)=>{
     //This controller approves event from the pending event list of admin
 
-    const {userId,eventId} = req.body;
-
+    const userId = req.user._id;
+    const eventId = req.params.eventId;
+    
     const user = await Users.findById(userId);
     const event = await Events.findById(eventId);
 

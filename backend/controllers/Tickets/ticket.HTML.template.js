@@ -334,7 +334,7 @@ return`
       </div>
 
       <!-- Title -->
-      <div class="event-title";${event.title}</div>
+      <div class="event-title">${event.title}</div>
       <div class="event-category">${event.category} &nbsp;·&nbsp; ${event.mode}</div>
     </div>
 

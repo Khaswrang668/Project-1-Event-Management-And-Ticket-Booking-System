@@ -35,7 +35,7 @@ export const signUp = asyncHandler(async (req, res) => {
     email,
     password: hashedPassword,
     phone,
-    role: 'User'
+    role
   })
 
   return res.status(201).json({

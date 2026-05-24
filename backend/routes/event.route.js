@@ -22,7 +22,7 @@ router.route('/:id/update-event').patch(verifyJWT,updateEvents);
 
 router.route('/:id/get-pending-events').get(verifyJWT,getPendingEvents);
 
-router.route('/approve-event').post(verifyJWT,approveEvent);
+router.route('/:eventId/approve-event').post(verifyJWT,approveEvent);
 
 router.route('/:id/get-event-data').get(verifyJWT,getEventData);
 
