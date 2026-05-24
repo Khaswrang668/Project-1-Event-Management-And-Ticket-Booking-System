@@ -31,7 +31,7 @@ export const certificateController = asyncHandler(async (req,res)=>{
         })
     }
     
-    if(attendance.scanResult === "Invalid"){
+    if(attendance.scanResult === "invalid"){
         return res.status(404).json({
             success: false,
             message: 'Invalid scan results of ticket'
