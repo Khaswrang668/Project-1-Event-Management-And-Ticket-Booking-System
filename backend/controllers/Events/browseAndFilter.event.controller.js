@@ -35,7 +35,7 @@ export const browseAndFilter = asyncHandler(async (req, res) => {
   }
 
   //Only admin approved events should be accessbile by the users
-  query.adminApproval = true
+  //query.adminApproval = true
 
   // Pagination & Execution
   const skip = (Number(page) - 1) * Number(limit);

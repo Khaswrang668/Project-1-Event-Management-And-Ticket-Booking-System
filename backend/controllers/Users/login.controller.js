@@ -32,6 +32,7 @@ export const userLogin = asyncHandler(async (req, res) => {
   const user = await Users.findOne({ email })
 
   if (!user) {
+    console.log('User not found !')
     return res.status(404).json({
       success: false,
       message: "User doesn't exist"
