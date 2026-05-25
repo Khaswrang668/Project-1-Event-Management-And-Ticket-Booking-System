@@ -15,12 +15,12 @@ export default function MyBookings() {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const res = await api.get('/bookings/get-booking-history')
-        setBookings(res.data.data)
-      } catch (err) {
-        if (err.response?.status === 404) setBookings([])
-        else setError(err.response?.data?.message || 'Failed to load bookings')
-      } finally {
+      const bookingRes = await api.get(`/bookings/${id}/get-booking-history`)
+      setExistingBooking(bookingRes.data.data)
+      } catch {
+      setExistingBooking(null)
+      }
+      finally {
         setLoading(false)
       }
     }

@@ -4,12 +4,17 @@ import { Payments } from '../../models/payment.model.js'
 import { Events } from '../../models/event.model.js'
 import { changeBookingStatus } from '../Bookings/bookingStatus.update.js'
 import { paymentRequest } from './paymentRequest.js'
+import { Users } from '../../models/user.model.js'
 
 import mongoose from 'mongoose'
 import "dotenv/config"
 
 export const createPaymentRecord = asyncHandler(async (req, res) => {
     const { ticketCount, paymentMethod } = req.body;
+
+    console.log(`ticket ${ticketCount}`)
+    console.log(`paymentMethod ${paymentMethod}`)
+
     const eventId = req.params.eventId;
     const userId = req.user._id;
     
@@ -17,6 +22,17 @@ export const createPaymentRecord = asyncHandler(async (req, res) => {
     session.startTransaction();
 
     try{
+    const user = await Users.findById(userId,null,{session});
+
+    if(!user){
+        return res.status(404).json({
+            success: false,
+            message: "User doesnot exist"
+        })
+    }
+
+    const phoneNo = user.phone;
+
     const event = await Events.findById(eventId,null,{session})
         
     //1.Check if event exists and the seats are available
@@ -39,13 +55,17 @@ export const createPaymentRecord = asyncHandler(async (req, res) => {
     
     //3.Intialize the payment gateway
     const paymentResponse = await paymentRequest(
-        event.price * ticketCount
+        event.price * ticketCount,
+        phoneNo
     );
     
     //4.URLs of the payment gateway to be sent to frontend
     const redirectUrl = paymentResponse.redirectUrl;
     const merchantOrderId = paymentResponse.merchantOrderId;
-    
+
+    console.log(`redirectUrl: ${redirectUrl}`)
+    console.log(`merchant order Id : ${merchantOrderId}`)
+
     //5.Create a temporaray payment object with pending status
     const payment = await Payments.create([{
         booking: booking._id,

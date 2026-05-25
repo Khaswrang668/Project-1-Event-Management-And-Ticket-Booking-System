@@ -1,6 +1,9 @@
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { Bookings } from "../../models/booking.model.js";
 
+//This controller is to fetch booking history of the particular user
+//Regardless of event, it's more a miscellinous funtion
+
 export const getMyBookingHistory = asyncHandler(async(req,res)=>{
     const userId = req.user._id
 
