@@ -9,6 +9,7 @@ import MyBookings from './pages/user/MyBookings.jsx'
 import CreateEvent from './pages/organizer/CreateEvent.jsx'
 import MyEvents from './pages/organizer/MyEvents.jsx'
 import PendingEvents from './pages/admin/PendingEvents.jsx'
+import PaymentCallback from './pages/user/PaymentCallback.jsx'
 
 export default function App() {
   return (
@@ -34,6 +35,12 @@ export default function App() {
       <Payment />
      </ProtectedRoute>
      } />
+     
+     <Route path="/payment/callback" element={
+    <ProtectedRoute allowedRoles={['User']}>
+      <PaymentCallback />
+     </ProtectedRoute>
+    } />
 
      <Route path="/my-bookings" element={
     <ProtectedRoute allowedRoles={['User']}>

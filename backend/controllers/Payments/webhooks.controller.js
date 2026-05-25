@@ -122,10 +122,8 @@ export const manageWebhooks = asyncHandler(async (req, res) => {
             // Confirm booking
             booking.bookingStatus = "Confirmed";
             await booking.save({ session });
-
-            // ✅ Decrement seats HERE (not in booking.controller).
-            // booking.controller should NOT touch seatLimit — it only creates
-            // the booking record. Seat inventory is only committed on payment success.
+            
+            //Decrement booking here not in the booking controller
             const updatedEvent = await Events.findOneAndUpdate(
                 { _id: booking.event, seatLimit: { $gte: booking.ticketCount } },
                 { $inc: { seatLimit: -booking.ticketCount } },

@@ -6,7 +6,7 @@ import { verifyJWT } from "../middlewares/authMiddleware.js";
 
 const router = Router()
 
-router.route('/generate-Ticket-PDF').post(verifyJWT,generateTicket)
+router.route('/:eventId/:bookingId/generate-Ticket-PDF').post(verifyJWT,generateTicket)
 router.route('/verify-Ticket').post(verifyJWT,verifyTicket)
 router.route('/ticket-data').get(verifyJWT,getTicketData)
 

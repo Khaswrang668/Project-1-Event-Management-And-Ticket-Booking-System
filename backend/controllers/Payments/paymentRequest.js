@@ -19,11 +19,11 @@ export const paymentRequest = async (paymentAmount,phoneNo)=>{
         "type": "PG_CHECKOUT",
         "message": "Payment message used for collect requests",
         "merchantUrls": {
-           "redirectUrl": `${process.env.FRONTEND_URL}/payment/callback`  
+          "redirectUrl": `${process.env.FRONTEND_URL}/payment/callback?merchantOrderId=${merchantOrderId}`
         }
     },
-    "prefillUserLoginDetails": {
-        "phoneNumber": `+91 ${phoneNo}`
+    "prefillUserLoginDetails": { //<- Fix: forgot to add this field it was mandotary
+        "phoneNumber": `+91 ${phoneNo}` //<- Fix: fixed the correct phone number format
      },
     "disablePaymentRetry": true
    }
@@ -33,7 +33,7 @@ export const paymentRequest = async (paymentAmount,phoneNo)=>{
         {
         headers: {
            "Content-Type" : "application/json",
-           "Authorization" : `O-Bearer ${authToken}` 
+           "Authorization" : `O-Bearer ${authToken}` //Fixed correct format should be O-Bearer not Bearer Only
           }
         }
     );
@@ -41,7 +41,7 @@ export const paymentRequest = async (paymentAmount,phoneNo)=>{
     //console.log("PhonePe response:", JSON.stringify(response.data, null, 2)) // add this
 
     const data = {
-        "redirectUrl": response.data.redirectUrl,
+        "redirectUrl": response.data.redirectUrl,//Fixed it's response.data.redirectUrl not reponse.data.data.redirectUrl
         "merchantOrderId": merchantOrderId
     };
    

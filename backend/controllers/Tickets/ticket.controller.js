@@ -6,7 +6,8 @@ import { generateTicketPDF } from "./generateTicket.js";
 import { randomUUID } from "crypto";
 
 export const generateTicket = asyncHandler(async (req,res)=>{
-    const {bookingId,eventId} = req.body;
+    const eventId = req.params.eventId;
+    const bookingId = req.params.bookingId;
     
     //1.find the booking object from DB
     const booking = await Bookings.findById(bookingId).populate('user');

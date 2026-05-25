@@ -4,8 +4,7 @@ import { browseAndFilter } from "../controllers/Events/browseAndFilter.event.con
 import { createEvents } from "../controllers/Events/createEvents.controller.js";
 import { deleteEvents } from "../controllers/Events/deleteEvents.controller.js";
 import { updateEvents } from "../controllers/Events/updateEvents.controller.js"; 
-import { getPendingEvents } from "../controllers/Events/adminApproval.event.controller.js";
-import { approveEvent } from "../controllers/Events/adminApproval.event.controller.js";
+import { approveEvent, rejectEvent, getPendingEvents } from "../controllers/Events/adminApproval.event.controller.js";
 import { getEventData } from "../controllers/Events/getEvent.controller.js";
 
 import { verifyJWT } from "../middlewares/authMiddleware.js";
@@ -24,6 +23,9 @@ router.route('/:id/get-pending-events').get(verifyJWT,getPendingEvents);
 
 router.route('/:eventId/approve-event').post(verifyJWT,approveEvent);
 
+router.route('/:eventId/reject-event').post(verifyJWT,rejectEvent);
+
 router.route('/:id/get-event-data').get(verifyJWT,getEventData);
+
 
 export default router
