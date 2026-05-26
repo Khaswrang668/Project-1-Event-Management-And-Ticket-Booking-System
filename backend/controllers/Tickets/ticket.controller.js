@@ -49,19 +49,18 @@ export const generateTicket = asyncHandler(async (req,res)=>{
     })
 
     //insert here actual ticket PDF generation logic here later
-    const pdfData =  await generateTicketPDF(ticket._id,eventId,qrToken);
-    
-    res.set({
-        "Content-Type": "application/pdf",
-        "Content-Disposition": "inline; filename=ticket.pdf",
-        "Content-Length": pdfData.length
-    });
-    
-    //So pdfData is a Promise object, not a Buffer. pdfData.length will be undefined and res.send
-    // (pdfData) will send nothing useful. Add await.
+    const pdfBuffer =  await generateTicketPDF(ticket._id,eventId,qrToken);
     
     //send res back to user
-    res.send(pdfData);
+    //Fixed: used base encoding 64 to convert pdf buffer to string
+    //to allow sending both ticket data and pdf buffer
+
+    res.status(200).json({
+        success: true,
+        message: "Ticket generation and object creation successfull",
+        ticketData: ticket,
+        pdfData: pdfBuffer.toString('base64')
+    })
 });
 
 export const getTicketData = asyncHandler(async (req,res)=>{

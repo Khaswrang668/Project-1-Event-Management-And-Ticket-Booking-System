@@ -6,19 +6,22 @@ import { Payments } from "../../models/payment.model.js"
 
 export const handleCallBack = asyncHandler(async (req, res) => {
     const { merchantOrderId } = req.query
+    console.log(merchantOrderId);
 
     if (!merchantOrderId) {
         return res.status(400).json({ success: false, message: "merchantOrderId missing" })
     }
 
     const payment = await Payments.findOne({ merchantOrderId })
+    console.log("Payment:",payment)
 
     if (!payment) {
         return res.status(404).json({ success: false, message: "Payment record not found" })
     }
 
     const booking = await Bookings.findById(payment.booking)
-
+    console.log("Booking:",booking)
+    
     if (!booking) {
         return res.status(404).json({ success: false, message: "Booking not found" })
     }

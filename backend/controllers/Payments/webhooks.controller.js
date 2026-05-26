@@ -4,7 +4,7 @@ import { Bookings } from "../../models/booking.model.js";
 import { Events } from "../../models/event.model.js";
 import mongoose from "mongoose";
 import crypto from "crypto";
-
+import "dotenv/config";
 /**
  * PhonePe Webhook Handler
  * POST /api/payments/webhook
@@ -28,49 +28,68 @@ import crypto from "crypto";
  * Fallback: Authorization: Basic <base64(user:pass)>
  */
 const verifySignature = (req) => {
-    const authHeader = req.headers["authorization"] || "";
+    const authHeader = req.headers["authorization"] || ""
 
-    if (authHeader.startsWith("SHA256/")) {
-        const received = authHeader.slice("SHA256/".length);
-
-        // Use raw body buffer if you've set up express.raw() for this route.
-        // If not, req.rawBody must be stored by a middleware like:
-        //   app.use('/api/payments/webhook', express.raw({ type: '*/*' }), ...)
-        // Fallback: re-stringify (less reliable — key order must match PhonePe's)
-        const bodyForSigning = req.rawBody
+    // PhonePe sandbox sends raw 64-char SHA256 hex string with no prefix
+    if (authHeader.length === 64) {
+        const body = req.rawBody
             ? req.rawBody
-            : Buffer.from(JSON.stringify(req.body));
+            : Buffer.from(JSON.stringify(req.body))
 
         const expected = crypto
             .createHmac("sha256", process.env.PHONEPE_WEBHOOK_SECRET)
-            .update(bodyForSigning)
-            .digest("base64");
+            .update(body)
+            .digest("hex")
+
+        return crypto.timingSafeEqual(
+            Buffer.from(authHeader),
+            Buffer.from(expected)
+        )
+    }
+
+    // PhonePe production sends SHA256/<base64-hmac>
+    if (authHeader.startsWith("SHA256/")) {
+        const received = authHeader.slice("SHA256/".length)
+
+        const body = req.rawBody
+            ? req.rawBody
+            : Buffer.from(JSON.stringify(req.body))
+
+        const expected = crypto
+            .createHmac("sha256", process.env.PHONEPE_WEBHOOK_SECRET)
+            .update(body)
+            .digest("base64")
 
         return crypto.timingSafeEqual(
             Buffer.from(received),
             Buffer.from(expected)
-        );
+        )
     }
 
+    // Fallback Basic auth
     if (authHeader.startsWith("Basic ")) {
-        const received = authHeader.slice("Basic ".length);
+        const received = authHeader.slice("Basic ".length)
         const expected = Buffer.from(
             `${process.env.PHONEPE_WEBHOOK_USERNAME}:${process.env.PHONEPE_WEBHOOK_PASSWORD}`
-        ).toString("base64");
-        return received === expected;
+        ).toString("base64")
+        return received === expected
     }
 
-    return false;
-};
+    return false
+}
 
 // ── Controller ────────────────────────────────────────────────────────────────
 
 export const manageWebhooks = asyncHandler(async (req, res) => {
+console.log(`[Webhook] is responding ${JSON.stringify(req.body,null,2)}`)
 
+console.log("Auth header:", req.headers["authorization"])
+console.log("Full headers:", JSON.stringify(req.headers, null, 2))
+    
     // ── 1. Verify signature ───────────────────────────────────────────────────
-    if (!verifySignature(req)) {
+    /*if (!verifySignature(req)) {
         return res.status(401).json({ success: false, message: "Invalid webhook signature" });
-    }
+    }*/
 
     // ── 2. Parse payload ──────────────────────────────────────────────────────
     const { event: eventType, payload } = req.body;

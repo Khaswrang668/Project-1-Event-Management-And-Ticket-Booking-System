@@ -11,20 +11,22 @@ export default function MyBookings() {
   const [error, setError] = useState('')
   const [ticketLoading, setTicketLoading] = useState({})
   const [ticketError, setTicketError] = useState({})
+  const [ticketUrls, setTicketUrls] = useState({})
+  const [ticketIds, setTicketIds] = useState({})
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchBookings = async () => {
       try {
-      const bookingRes = await api.get(`/bookings/${id}/get-booking-history`)
-      setExistingBooking(bookingRes.data.data)
-      } catch {
-      setExistingBooking(null)
-      }
-      finally {
+        const res = await api.get('/bookings/get-booking-history')
+        setBookings(res.data.data)
+      } catch (err) {
+        if (err.response?.status === 404) setBookings([])
+        else setError(err.response?.data?.message || 'Failed to load bookings')
+      } finally {
         setLoading(false)
       }
     }
-    fetch()
+    fetchBookings()
   }, [])
 
   const handleDownloadTicket = async (booking) => {
@@ -34,17 +36,31 @@ export default function MyBookings() {
       const res = await api.post('/tickets/generate-Ticket-PDF', {
         bookingId: booking._id,
         eventId: booking.event
-      }, { responseType: 'blob' })
+      })
 
-      // Create download link for PDF blob
-      const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }))
+      const { pdfBase64, ticketId } = res.data.data
+
+      setTicketIds(prev => ({ ...prev, [booking._id]: ticketId }))
+
+      const binary = atob(pdfBase64)
+      const bytes = new Uint8Array(binary.length)
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i)
+      }
+      const blob = new Blob([bytes], { type: 'application/pdf' })
+      const url = window.URL.createObjectURL(blob)
+
+      // Store for iframe
+      setTicketUrls(prev => ({ ...prev, [booking._id]: url }))
+
+      // Also trigger download
       const link = document.createElement('a')
       link.href = url
       link.setAttribute('download', `ticket-${booking._id}.pdf`)
       document.body.appendChild(link)
       link.click()
       link.remove()
-      window.URL.revokeObjectURL(url)
+
     } catch (err) {
       setTicketError(prev => ({
         ...prev,
@@ -65,7 +81,7 @@ export default function MyBookings() {
     day: 'numeric', month: 'short', year: 'numeric'
   })
 
-  const statusColor = {
+  const statusColors = {
     Confirmed: { bg: '#0f2e1a', text: '#4ade80' },
     Pending:   { bg: '#2e2a0f', text: '#facc15' },
     Cancelled: { bg: '#2e0f0f', text: '#f87171' },
@@ -120,59 +136,81 @@ export default function MyBookings() {
         {!loading && bookings.length > 0 && (
           <div style={s.list}>
             {bookings.map(booking => {
-              const colors = statusColor[booking.bookingStatus] || statusColor.Pending
+              const colors = statusColors[booking.bookingStatus] || statusColors.Pending
               const isConfirmed = booking.bookingStatus === 'Confirmed'
+              const isPending = booking.bookingStatus === 'Pending'
+
               return (
                 <div key={booking._id} style={s.card}>
-                  <div style={s.cardLeft}>
-                    <div style={s.cardTop}>
-                      <span style={{ ...s.statusBadge, background: colors.bg, color: colors.text }}>
-                        {booking.bookingStatus}
-                      </span>
-                      <span style={s.bookingId}>#{booking._id.slice(-8).toUpperCase()}</span>
-                    </div>
-
-                    <div style={s.cardMeta}>
-                      <div style={s.metaItem}>
-                        <span style={s.metaLabel}>Tickets</span>
-                        <span style={s.metaValue}>{booking.ticketCount}</span>
-                      </div>
-                      <div style={s.metaItem}>
-                        <span style={s.metaLabel}>Total paid</span>
-                        <span style={s.metaValue}>₹{booking.totalAmount.toLocaleString('en-IN')}</span>
-                      </div>
-                      <div style={s.metaItem}>
-                        <span style={s.metaLabel}>Booked on</span>
-                        <span style={s.metaValue}>{formatDate(booking.createdAt)}</span>
-                      </div>
-                    </div>
-
-                    {ticketError[booking._id] && (
-                      <p style={s.ticketErr}>{ticketError[booking._id]}</p>
-                    )}
+                  <div style={s.cardTop}>
+                    <span style={{ ...s.statusBadge, background: colors.bg, color: colors.text }}>
+                      {booking.bookingStatus}
+                    </span>
+                    <span style={s.bookingId}>#{booking._id.slice(-8).toUpperCase()}</span>
                   </div>
 
-                  <div style={s.cardRight}>
-                    {isConfirmed ? (
+                  <div style={s.cardMeta}>
+                    <div style={s.metaItem}>
+                      <span style={s.metaLabel}>Tickets</span>
+                      <span style={s.metaValue}>{booking.ticketCount}</span>
+                    </div>
+                    <div style={s.metaItem}>
+                      <span style={s.metaLabel}>Total paid</span>
+                      <span style={s.metaValue}>₹{booking.totalAmount.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div style={s.metaItem}>
+                      <span style={s.metaLabel}>Booked on</span>
+                      <span style={s.metaValue}>{formatDate(booking.createdAt)}</span>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div style={s.actions}>
+                    {isConfirmed && (
                       <button
                         onClick={() => handleDownloadTicket(booking)}
                         disabled={ticketLoading[booking._id]}
                         style={{ ...s.ticketBtn, opacity: ticketLoading[booking._id] ? 0.7 : 1 }}>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                        </svg>
-                        {ticketLoading[booking._id] ? 'Generating...' : 'Download ticket'}
+                        {ticketLoading[booking._id] ? 'Generating...' : '⬇ Download ticket'}
                       </button>
-                    ) : booking.bookingStatus === 'Pending' ? (
+                    )}
+
+                    {isPending && (
                       <button
                         onClick={() => navigate(`/payment/${booking._id}`, { state: { booking } })}
-                        style={s.payNowBtn}>
+                        style={s.payBtn}>
                         Complete payment
                       </button>
-                    ) : (
+                    )}
+
+                    {booking.bookingStatus === 'Cancelled' && (
                       <span style={s.cancelledNote}>Booking cancelled</span>
                     )}
                   </div>
+
+                  {/* Ticket error */}
+                  {ticketError[booking._id] && (
+                    <p style={s.ticketErr}>{ticketError[booking._id]}</p>
+                  )}
+
+                  {/* Iframe preview */}
+                  {ticketUrls[booking._id] && (
+                    <div style={s.iframeWrap}>
+                      <div style={s.iframeHeader}>
+                        <span style={s.iframeTitle}>Ticket preview</span>
+                        <button
+                          onClick={() => setTicketUrls(prev => ({ ...prev, [booking._id]: null }))}
+                          style={s.iframeClose}>
+                          ✕ Close
+                        </button>
+                      </div>
+                      <iframe
+                        src={ticketUrls[booking._id]}
+                        style={s.iframe}
+                        title={`Ticket ${booking._id}`}
+                      />
+                    </div>
+                  )}
                 </div>
               )
             })}
@@ -200,23 +238,27 @@ const s = {
   sub: { color: '#666', fontSize: '14px' },
   center: { textAlign: 'center', padding: '80px 0' },
   error: { color: '#f87171', fontSize: '13px' },
-  empty: { textAlign: 'center', padding: '80px 0' },
-  emptyTitle: { color: '#fff', fontSize: '18px', fontWeight: '500', marginBottom: '8px' },
-  emptySub: { color: '#666', fontSize: '14px', marginBottom: '24px' },
+  empty: { textAlign: 'center', padding: '80px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' },
+  emptyTitle: { color: '#fff', fontSize: '18px', fontWeight: '500' },
+  emptySub: { color: '#666', fontSize: '14px', marginBottom: '8px' },
   browseBtn: { background: '#6d28d9', border: 'none', borderRadius: '8px', padding: '10px 24px', color: '#fff', fontSize: '13px', cursor: 'pointer' },
-  list: { display: 'flex', flexDirection: 'column', gap: '12px' },
-  card: { background: '#111', border: '1px solid #1e1e1e', borderRadius: '14px', padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' },
-  cardLeft: { flex: 1 },
+  list: { display: 'flex', flexDirection: 'column', gap: '16px' },
+  card: { background: '#111', border: '1px solid #1e1e1e', borderRadius: '14px', padding: '24px' },
   cardTop: { display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' },
   statusBadge: { fontSize: '11px', padding: '3px 10px', borderRadius: '20px', fontWeight: '500' },
   bookingId: { color: '#444', fontSize: '11px', fontFamily: 'monospace' },
-  cardMeta: { display: 'flex', gap: '32px' },
+  cardMeta: { display: 'flex', gap: '32px', marginBottom: '20px' },
   metaItem: { display: 'flex', flexDirection: 'column', gap: '4px' },
   metaLabel: { color: '#555', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' },
   metaValue: { color: '#ccc', fontSize: '14px', fontWeight: '500' },
-  ticketErr: { color: '#f87171', fontSize: '12px', marginTop: '10px' },
-  cardRight: { flexShrink: 0 },
+  actions: { display: 'flex', gap: '10px', flexWrap: 'wrap' },
   ticketBtn: { display: 'flex', alignItems: 'center', gap: '8px', background: '#1a0f2e', border: '1px solid #4c1d95', borderRadius: '8px', padding: '10px 16px', color: '#9d71f7', fontSize: '13px', cursor: 'pointer' },
-  payNowBtn: { background: '#6d28d9', border: 'none', borderRadius: '8px', padding: '10px 16px', color: '#fff', fontSize: '13px', cursor: 'pointer' },
-  cancelledNote: { color: '#444', fontSize: '13px' },
+  payBtn: { background: '#6d28d9', border: 'none', borderRadius: '8px', padding: '10px 16px', color: '#fff', fontSize: '13px', cursor: 'pointer' },
+  cancelledNote: { color: '#444', fontSize: '13px', padding: '10px 0' },
+  ticketErr: { color: '#f87171', fontSize: '12px', marginTop: '10px' },
+  iframeWrap: { marginTop: '20px', border: '1px solid #2a2a2a', borderRadius: '10px', overflow: 'hidden' },
+  iframeHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#1a1a1a', borderBottom: '1px solid #2a2a2a' },
+  iframeTitle: { color: '#888', fontSize: '12px' },
+  iframeClose: { background: 'none', border: 'none', color: '#666', fontSize: '12px', cursor: 'pointer' },
+  iframe: { width: '100%', height: '500px', border: 'none', background: '#fff' },
 }
