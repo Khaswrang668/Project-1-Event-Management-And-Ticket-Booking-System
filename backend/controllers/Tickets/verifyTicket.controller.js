@@ -3,7 +3,12 @@ import { Attendances } from "../../models/attendance.model.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 
 export const verifyTicket = asyncHandler(async(req,res)=>{
-    const qrToken = req.body.qrToken;
+    const qrCode = req.body.qrCode;
+    
+    const data = qrCode.split(".");
+   
+    const qrToken = data[1];
+    const ticketId = data[0];
 
     //search ticket object by it's ID in DB
     const ticket = await Tickets.findOne({qrToken});

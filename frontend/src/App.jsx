@@ -10,6 +10,7 @@ import CreateEvent from './pages/organizer/CreateEvent.jsx'
 import MyEvents from './pages/organizer/MyEvents.jsx'
 import PendingEvents from './pages/admin/PendingEvents.jsx'
 import PaymentCallback from './pages/user/PaymentCallback.jsx'
+import ScanTicket from './pages/organizer/ScanTicket.jsx'
 
 export default function App() {
   return (
@@ -47,7 +48,12 @@ export default function App() {
       <MyBookings />
     </ProtectedRoute>
     } />
-
+    
+    <Route path="/scan-ticket" element={
+  <ProtectedRoute allowedRoles={['Organizer', 'Admin']}>
+    <ScanTicket />
+  </ProtectedRoute>
+} />
      <Route path="/organizer/events" element={
     <ProtectedRoute allowedRoles={['Organizer']}>
     <MyEvents />

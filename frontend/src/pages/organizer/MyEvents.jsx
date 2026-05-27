@@ -67,6 +67,9 @@ export default function MyEvents() {
           <button style={{ ...s.navLink, color: '#fff' }}>My events</button>
           <button onClick={() => navigate('/organizer/create-event')} style={s.navLink}>Create event</button>
         </div>
+         <button onClick={() => navigate('/scan-ticket')} style={s.navLink}>
+          Scan tickets
+       </button>
         <div style={s.navRight}>
           <span style={s.navUser}>🎤 {user?.username || user?.email}</span>
           <button onClick={handleLogout} style={s.logoutBtn}>Sign out</button>
