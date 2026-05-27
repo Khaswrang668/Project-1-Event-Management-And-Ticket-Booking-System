@@ -33,33 +33,34 @@ export default function MyBookings() {
     setTicketLoading(prev => ({ ...prev, [booking._id]: true }))
     setTicketError(prev => ({ ...prev, [booking._id]: '' }))
     try {
-      const res = await api.post('/tickets/generate-Ticket-PDF', {
-        bookingId: booking._id,
-        eventId: booking.event
-      })
+      const res = await api.post(`/tickets/${booking.event}/${booking._id}/generate-Ticket-PDF`)
+      console.log("Ticket response:", res.data)
 
-      const { pdfBase64, ticketId } = res.data.data
+      const { pdfData, ticketData } = res.data //Fixed: should be ticketData and pdfData 
+      //not pdfbase64 or ticketId
 
-      setTicketIds(prev => ({ ...prev, [booking._id]: ticketId }))
+// Store ticketId
+setTicketIds(prev => ({ ...prev, [booking._id]: ticketData._id }))
 
-      const binary = atob(pdfBase64)
-      const bytes = new Uint8Array(binary.length)
-      for (let i = 0; i < binary.length; i++) {
-        bytes[i] = binary.charCodeAt(i)
-      }
-      const blob = new Blob([bytes], { type: 'application/pdf' })
-      const url = window.URL.createObjectURL(blob)
+// Decode base64 and create blob
+const binary = atob(pdfData)
+const bytes = new Uint8Array(binary.length)
+for (let i = 0; i < binary.length; i++) {
+  bytes[i] = binary.charCodeAt(i)
+}
+const blob = new Blob([bytes], { type: 'application/pdf' })
+const url = window.URL.createObjectURL(blob)
 
-      // Store for iframe
-      setTicketUrls(prev => ({ ...prev, [booking._id]: url }))
+// Store for iframe
+setTicketUrls(prev => ({ ...prev, [booking._id]: url }))
 
-      // Also trigger download
-      const link = document.createElement('a')
-      link.href = url
-      link.setAttribute('download', `ticket-${booking._id}.pdf`)
-      document.body.appendChild(link)
-      link.click()
-      link.remove()
+// Trigger download
+const link = document.createElement('a')
+link.href = url
+link.setAttribute('download', `ticket-${booking._id}.pdf`)
+document.body.appendChild(link)
+link.click()
+link.remove()
 
     } catch (err) {
       setTicketError(prev => ({
@@ -191,25 +192,6 @@ export default function MyBookings() {
                   {/* Ticket error */}
                   {ticketError[booking._id] && (
                     <p style={s.ticketErr}>{ticketError[booking._id]}</p>
-                  )}
-
-                  {/* Iframe preview */}
-                  {ticketUrls[booking._id] && (
-                    <div style={s.iframeWrap}>
-                      <div style={s.iframeHeader}>
-                        <span style={s.iframeTitle}>Ticket preview</span>
-                        <button
-                          onClick={() => setTicketUrls(prev => ({ ...prev, [booking._id]: null }))}
-                          style={s.iframeClose}>
-                          ✕ Close
-                        </button>
-                      </div>
-                      <iframe
-                        src={ticketUrls[booking._id]}
-                        style={s.iframe}
-                        title={`Ticket ${booking._id}`}
-                      />
-                    </div>
                   )}
                 </div>
               )

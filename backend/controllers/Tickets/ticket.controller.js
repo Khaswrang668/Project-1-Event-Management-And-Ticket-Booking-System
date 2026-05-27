@@ -8,10 +8,14 @@ import { randomUUID } from "crypto";
 export const generateTicket = asyncHandler(async (req,res)=>{
     const eventId = req.params.eventId;
     const bookingId = req.params.bookingId;
-    
+
+    console.log("Event Id:", eventId);
+    console.log("Booking Id:", bookingId);
+
     //1.find the booking object from DB
     const booking = await Bookings.findById(bookingId).populate('user');
-    
+    console.log("Booking data:", booking);
+
     //2.verify booking's existence
     if(!booking){
         return res.status(404).json({
@@ -36,6 +40,7 @@ export const generateTicket = asyncHandler(async (req,res)=>{
             message: "no event found"
         })
     }
+    console.log("Event data", event)
 
     const qrToken = randomUUID();
 
@@ -50,16 +55,20 @@ export const generateTicket = asyncHandler(async (req,res)=>{
 
     //insert here actual ticket PDF generation logic here later
     const pdfBuffer =  await generateTicketPDF(ticket._id,eventId,qrToken);
-    
-    //send res back to user
-    //Fixed: used base encoding 64 to convert pdf buffer to string
-    //to allow sending both ticket data and pdf buffer
+    //Fixed: this was actually returning unit8array 
 
+    const buffer = Buffer.from(pdfBuffer)
+    //converted to buffer
+
+    const base64 = buffer.toString("base64")
+    //console.log(base64)
+    
+    //Gixed: Used base64 to allow both ticket data and buffer transfer to frontend
     res.status(200).json({
         success: true,
         message: "Ticket generation and object creation successfull",
         ticketData: ticket,
-        pdfData: pdfBuffer.toString('base64')
+        pdfData: base64
     })
 });
 
