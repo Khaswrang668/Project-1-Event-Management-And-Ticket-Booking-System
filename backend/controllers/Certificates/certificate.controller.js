@@ -4,6 +4,12 @@ import { asyncHandler } from "../../utils/asyncHandler.js";
 import { randomUUID } from 'crypto';
 import { generateCertificate } from "./generateCertificate.js";
 
+//Certificate eligiblity criteria:-
+//Ticket must be checked in
+//Valid attendence record should exist
+//Booking should be confirmed
+//Payment should be approved 
+
 export const certificateController = asyncHandler(async (req,res)=>{
     const {ticketId,attendanceId} = req.body;
 
@@ -37,7 +43,7 @@ export const certificateController = asyncHandler(async (req,res)=>{
             message: 'Invalid scan results of ticket'
         })
     }
-
+    
     //generate certificate Id
     const certificateId = randomUUID();
 
