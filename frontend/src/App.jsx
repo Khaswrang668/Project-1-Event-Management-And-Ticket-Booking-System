@@ -11,6 +11,7 @@ import MyEvents from './pages/organizer/MyEvents.jsx'
 import PendingEvents from './pages/admin/PendingEvents.jsx'
 import PaymentCallback from './pages/user/PaymentCallback.jsx'
 import ScanTicket from './pages/organizer/ScanTicket.jsx'
+import Certificates from './pages/organizer/Certificates.jsx'
 
 export default function App() {
   return (
@@ -53,7 +54,8 @@ export default function App() {
   <ProtectedRoute allowedRoles={['Organizer', 'Admin']}>
     <ScanTicket />
   </ProtectedRoute>
-} />
+   } />
+
      <Route path="/organizer/events" element={
     <ProtectedRoute allowedRoles={['Organizer']}>
     <MyEvents />
@@ -65,7 +67,14 @@ export default function App() {
     <CreateEvent />
    </ProtectedRoute>
    } />
-    
+  
+ 
+   <Route path="/organizer/certificates/:eventId" element={
+  <ProtectedRoute allowedRoles={['Organizer']}>
+    <Certificates />
+  </ProtectedRoute>
+   } />
+
   <Route path="/admin/pending" element={
   <ProtectedRoute allowedRoles={['Admin']}>
     <PendingEvents />

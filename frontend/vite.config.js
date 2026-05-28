@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://project-1-event-management-and-tick.vercel.app',//http:lcoalhost:4000
+        target: 'http://localhost:4000',//http:lcoalhost:4000
         changeOrigin: true,
       }
     }

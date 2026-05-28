@@ -1,4 +1,4 @@
-/*import {app} from './app.js'
+import {app} from './app.js'
 import{connectDB} from './db/index.js'
 import 'dotenv/config'
 
@@ -10,9 +10,9 @@ connectDB()
 })
 .catch((err)=>{
     console.log(`cannot connect Database and server, ${err}`);
-})*/
+})
 
-import { app } from './app.js'
+/*import { app } from './app.js'
 import { connectDB } from './db/index.js'
 import 'dotenv/config'
 
@@ -31,6 +31,6 @@ if (process.env.NODE_ENV !== 'production') {
   app.listen(process.env.PORT || 3000, () => {
     console.log(`Server is running at port http://localhost:${process.env.PORT || 3000}`);
   });
-}
+}*/
 
 export default app;

@@ -127,6 +127,11 @@ export default function MyEvents() {
                     <button onClick={() => navigate(`/organizer/edit-event/${event._id}`, { state: { event } })} style={s.editBtn}>
                       Edit
                     </button>
+                    <button
+                      onClick={() => navigate(`/organizer/certificates/${event._id}`)}
+                      style={s.certBtn}>
+                      Certificates
+                    </button>
                     <button onClick={() => handleDelete(event._id)}
                       disabled={deleting[event._id]}
                       style={{ ...s.deleteBtn, opacity: deleting[event._id] ? 0.6 : 1 }}>

@@ -1,4 +1,4 @@
-/*import axios from 'axios'
+import axios from 'axios'
 
 const api = axios.create({
   baseURL: '/api/v1',
@@ -46,11 +46,11 @@ api.interceptors.response.use(
   }
 )*/
 
-import axios from 'axios'
+/*import axios from 'axios'
 
 const api = axios.create({
   baseURL: 'https://project-1-event-management-and-tick.vercel.app/api/v1',
   withCredentials: true,
-})
+})*/
 
 export default api

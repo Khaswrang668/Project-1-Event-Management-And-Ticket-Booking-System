@@ -6,7 +6,7 @@ import { Payments } from "../../models/payment.model.js"
 
 export const handleCallBack = asyncHandler(async (req, res) => {
     const { merchantOrderId } = req.query
-    console.log(merchantOrderId);
+    console.log("Handle callback:", merchantOrderId);
 
     if (!merchantOrderId) {
         return res.status(400).json({ success: false, message: "merchantOrderId missing" })

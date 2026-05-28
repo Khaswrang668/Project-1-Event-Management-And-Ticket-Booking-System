@@ -37,7 +37,13 @@ export const verifyTicket = asyncHandler(async(req,res)=>{
         scanTime: ticket.isCheckedInAt,
         scanResult: 'valid'
     })
-
+    
+    await Tickets.findByIdAndUpdate(ticket._id, {
+    isCheckedIn: true,
+    isCheckedInAt: new Date(),
+    attendanceId: attendance._id  // store reference
+    })
+    
     await ticket.save();
 
     res.status(200).json({

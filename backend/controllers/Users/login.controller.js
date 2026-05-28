@@ -21,7 +21,8 @@ const generateAccessAndRefereshTokens = async(userId) =>{
 
 export const userLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body
-
+  console.log(`User login controller is responding ${req.body}`)
+  
   if (!email || !password) {
     return res.status(400).json({
       success: false,
