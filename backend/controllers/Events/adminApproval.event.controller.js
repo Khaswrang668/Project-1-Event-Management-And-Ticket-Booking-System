@@ -25,7 +25,7 @@ export const getPendingEvents = asyncHandler(async (req,res)=>{
 
 export const approveEvent = asyncHandler(async(req,res)=>{
     //This controller approves event from the pending event list of admin
-
+    console.log('Approving event controller is working')
     const userId = req.user._id;
     const eventId = req.params.eventId;
     
@@ -65,7 +65,8 @@ export const approveEvent = asyncHandler(async(req,res)=>{
 
 export const rejectEvent = asyncHandler(async(req,res)=>{
     //This controller approves event from the pending event list of admin
-
+    console.log('rejecting controller is working')
+    
     const userId = req.user._id;
     const eventId = req.params.eventId;
     

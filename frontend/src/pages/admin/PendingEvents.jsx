@@ -11,6 +11,8 @@ export default function PendingEvents() {
   const [error, setError] = useState('')
   const [approving, setApproving] = useState({})
   const [approved, setApproved] = useState({})
+  const [rejecting, setRejecting] = useState({})
+  const [rejected, setRejected] = useState({})
 
   useEffect(() => {
     const fetch = async () => {
@@ -36,6 +38,19 @@ export default function PendingEvents() {
       alert(err.response?.data?.message || 'Approval failed')
     } finally {
       setApproving(prev => ({ ...prev, [eventId]: false }))
+    }
+  }
+  
+  const handleReject = async (eventId) => {
+    setRejecting(prev => ({ ...prev, [eventId]: true }))
+    try {
+      await api.post(`/events/${eventId}/reject-event`)
+      setRejected(prev => ({ ...prev, [eventId]: true }))
+      setEvents(prev => prev.filter(e => e._id !== eventId))
+    } catch (err) {
+      alert(err.response?.data?.message || 'Rejection failed')
+    } finally {
+      setRejecting(prev => ({ ...prev, [eventId]: false }))
     }
   }
 
@@ -162,8 +177,11 @@ export default function PendingEvents() {
                       style={{ ...s.approveBtn, opacity: approving[event._id] ? 0.7 : 1 }}>
                       {approving[event._id] ? 'Approving...' : '✓ Approve'}
                     </button>
-                    <button style={s.rejectBtn}>
-                      ✕ Reject
+                    <button style={s.rejectBtn}
+                      onClick={() => handleReject(event._id)}
+                      disabled={rejecting[event._id]}
+                      style={{ ...s.rejectBtn, opacity: rejecting[event._id] ? 0.7 : 1 }}>
+                      {rejecting[event._id] ? 'Rejecting...' : '✕ Reject'}
                     </button>
                   </div>
                 </div>
