@@ -1,13 +1,15 @@
 import { Events } from '../../models/event.model.js';
 import { asyncHandler } from '../../utils/asyncHandler.js';
+import { Users } from '../../models/user.model.js';
 
 export const deleteEvents = asyncHandler(async (req, res) => {
-    const eventId = req.body._id || req.params.id;
+    const eventId = req.params.id;
     const userId = req.user._id
-    
+
+    console.log(`Delete event controller is working`)
     const user = await Users.findById(userId);
     
-    if(user.role !== 'Organizer' || user.role !== 'Admin'){
+    if(user.role === 'User'){ //Fixed: check if user.role is user, if yes then delete
         return res.status(404).json({message: "Not allowed to delete the event"})
     }
     
