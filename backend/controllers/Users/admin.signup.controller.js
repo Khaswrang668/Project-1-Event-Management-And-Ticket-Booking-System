@@ -12,7 +12,7 @@ export const approveAdminRegistration = asyncHandler(async(req,res)=>{
 
     user.status = "Approved";
     await user.save();
-
+    console.log(`USER STATUS ${user.status}`)
     res.status(200).json({
         success: true,
         message: 'User is verified and successfully registered as admin'

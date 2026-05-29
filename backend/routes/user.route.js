@@ -11,7 +11,7 @@ router.route('/register-admin').post(signUpAsAdmin)
 router.route('/login').post(userLogin)
 router.route('/refresh-access-token').post(refreshAccessToken)
 router.route('/log-out').post(verifyJWT,logOut)
-router.route('/:id/approve-admin-registration').post(approveAdminRegistration)
-router.route('/:id/reject-admin-registration').post(rejectAdminRegistration)
+router.route('/:id/approve-admin-registration').get(approveAdminRegistration)
+router.route('/:id/reject-admin-registration').get(rejectAdminRegistration)
 
 export default router

@@ -47,7 +47,7 @@ export const userLogin = asyncHandler(async (req, res) => {
     })
   }
 
-  if (user.role === 'Admin' && user.status !== 'Active') {
+  if (user.role === 'Admin' && user.status !== 'Approved') {
     return res.status(401).json({
         success: false,
         message: "Your admin registration is pending approval"
