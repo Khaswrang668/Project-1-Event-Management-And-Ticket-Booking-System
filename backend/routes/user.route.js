@@ -7,7 +7,7 @@ import { approveAdminRegistration,rejectAdminRegistration } from '../controllers
 const router = express.Router()
 
 router.route('/register').post(signUp)
-router.route('/register-as-admin').post(signUpAsAdmin)
+router.route('/register-admin').post(signUpAsAdmin)
 router.route('/login').post(userLogin)
 router.route('/refresh-access-token').post(refreshAccessToken)
 router.route('/log-out').post(verifyJWT,logOut)

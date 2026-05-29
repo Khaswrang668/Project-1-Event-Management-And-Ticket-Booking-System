@@ -79,6 +79,13 @@ export default function Login() {
           Don't have an account?{' '}
           <Link to="/register" style={styles.link}>Register</Link>
         </p>
+        <p style={styles.footer}>
+         Applying for admin access?{' '}
+        <Link to="/register-admin">
+          Request here
+        </Link>
+       </p>
+
       </div>
     </div>
   )

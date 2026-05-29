@@ -1,7 +1,7 @@
 import { Users } from '../../models/user.model.js'
 import bcrypt from 'bcrypt'
 import { asyncHandler } from '../../utils/asyncHandler.js'
-import {nodemailer,createTransport} from "nodemailer";
+import nodemailer,{createTransport} from "nodemailer";
 import "dotenv/config";
 
 export const signUp = asyncHandler(async (req, res) => {
@@ -52,9 +52,9 @@ export const signUp = asyncHandler(async (req, res) => {
 })
 
 export const signUpAsAdmin = asyncHandler(async(req,res)=>{
-  const { username, email, password, phone , role} = req.body
+  const { username, email, password, phone } = req.body
 
-  if (!username || !email || !password || !phone || !role) {
+  if (!username || !email || !password || !phone ) {
     return res.status(400).json({
       success: false,
       message: "Some fields are missing"
@@ -84,7 +84,7 @@ export const signUpAsAdmin = asyncHandler(async(req,res)=>{
     email,
     password: hashedPassword,
     phone,
-    role,
+    role: 'Admin',
     status: 'Pending'
   })
 
@@ -102,11 +102,10 @@ export const signUpAsAdmin = asyncHandler(async(req,res)=>{
         <p><strong>Name:</strong> ${username}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Reason:</strong>${role}</p>
         
         <br />
       
-        href="${process.env.BACKEND_URL}/api/v1/users/${user._id}/approve-admin-registration"
+      <a href="${process.env.BACKEND_URL}/api/v1/users/${user._id}/approve-admin-registration"
         style="
         background-color: green;
         color: white;
@@ -118,10 +117,9 @@ export const signUpAsAdmin = asyncHandler(async(req,res)=>{
     "
       >
       Approve
-      </a>
+    </a>
 
-  
-    href="${process.env.BACKEND_URL}/api/v1/users/${user._id}/reject-admin-registration"
+    <a href="${process.env.BACKEND_URL}/api/v1/users/${user._id}/reject-admin-registration"
     style="
       background-color: red;
       color: white;
@@ -129,10 +127,10 @@ export const signUpAsAdmin = asyncHandler(async(req,res)=>{
       text-decoration: none;
       border-radius: 6px;
       display: inline-block;
-    "
-  >
+    ">
+
     Reject
-  </a>
+    </a>
   </div>
       `
   })

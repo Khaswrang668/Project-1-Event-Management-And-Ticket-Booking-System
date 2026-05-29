@@ -40,6 +40,13 @@ export const userLogin = asyncHandler(async (req, res) => {
     })
   }
   
+  if (user.role === 'Admin' && user.status === 'Rejected') {
+    return res.status(401).json({
+        success: false,
+        message: "Your admin registration was rejected by the system"
+    })
+  }
+
   if (user.role === 'Admin' && user.status !== 'Active') {
     return res.status(401).json({
         success: false,

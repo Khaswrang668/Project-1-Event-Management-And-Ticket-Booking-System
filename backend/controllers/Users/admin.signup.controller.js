@@ -3,7 +3,7 @@ import { asyncHandler } from "../../utils/asyncHandler.js";
 
 export const approveAdminRegistration = asyncHandler(async(req,res)=>{
     const userId = req.params.id;
-
+    console.log(`The approve admin registration req is working`)
     const user = await Users.findById(userId);
 
     if(!user){

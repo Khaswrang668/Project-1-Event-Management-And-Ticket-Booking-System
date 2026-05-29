@@ -12,6 +12,7 @@ import PendingEvents from './pages/admin/PendingEvents.jsx'
 import PaymentCallback from './pages/user/PaymentCallback.jsx'
 import ScanTicket from './pages/organizer/ScanTicket.jsx'
 import Certificates from './pages/organizer/Certificates.jsx'
+import AdminRegister from './pages/auth/AdminRegister.jsx'
 
 export default function App() {
   return (
@@ -19,7 +20,7 @@ export default function App() {
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-
+      <Route path="/register-admin" element={<AdminRegister />} />
       <Route path="/events" element={
         <ProtectedRoute allowedRoles={['User']}>
           <BrowseEvents />
