@@ -65,7 +65,6 @@ export const certificateController = asyncHandler(async (req, res) => {
     // 6. Send email with PDF attachment in background
     // Don't await — respond to client immediately, email sends async
     sendMail({
-        from: organizer.email,
         to: ticket.booking.user.email,
         subject: 'Your Certificate of Participation — EventFlow',
         html: `
@@ -101,7 +100,7 @@ export const certificateController = asyncHandler(async (req, res) => {
 })
 
 
-const sendMail = async ({ from, to, subject, html, attachments = [] }) => {
+const sendMail = async ({ to, subject, html, attachments = [] }) => {
   const transporter= await createTransport({
       "service": "gmail",
       "auth": {

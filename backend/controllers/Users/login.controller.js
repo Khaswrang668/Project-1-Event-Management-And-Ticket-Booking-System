@@ -39,6 +39,13 @@ export const userLogin = asyncHandler(async (req, res) => {
       message: "User doesn't exist"
     })
   }
+  
+  if (user.role === 'Admin' && user.status !== 'Active') {
+    return res.status(401).json({
+        success: false,
+        message: "Your admin registration is pending approval"
+    })
+  }
 
   const verified = await bcrypt.compare(password, user.password)
 

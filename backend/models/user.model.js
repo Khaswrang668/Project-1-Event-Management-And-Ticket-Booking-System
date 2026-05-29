@@ -28,6 +28,11 @@ role:{
 },
 refreshToken:{
     type: String
+},
+status: {
+    type: String,
+    enum: ['Approved','Rejected','Pending'],
+    default: null  // null for regular users, only set for Admin
 }
 },{timestamps: true})
 
