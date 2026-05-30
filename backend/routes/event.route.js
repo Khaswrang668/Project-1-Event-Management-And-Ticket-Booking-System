@@ -17,7 +17,7 @@ router.route('/create-event').post(verifyJWT,createEvents);
 
 router.route('/:id/delete-event').delete(verifyJWT,deleteEvents);
 
-router.route('/:id/update-event').patch(verifyJWT,updateEvents);
+router.route('/:id/edit-event').patch(verifyJWT,updateEvents);
 
 router.route('/:id/get-pending-events').get(verifyJWT,getPendingEvents);
 

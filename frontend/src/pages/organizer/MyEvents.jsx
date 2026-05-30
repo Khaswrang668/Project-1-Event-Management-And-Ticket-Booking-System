@@ -181,4 +181,5 @@ const s = {
   cardActions: { display: 'flex', flexDirection: 'column', gap: '8px', flexShrink: 0 },
   editBtn: { background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: '8px', padding: '8px 20px', color: '#ccc', fontSize: '13px', cursor: 'pointer' },
   deleteBtn: { background: '#2e0f0f', border: '1px solid #4a1a1a', borderRadius: '8px', padding: '8px 20px', color: '#f87171', fontSize: '13px', cursor: 'pointer' },
+  certBtn: { background: '#0f1a2e', border: '1px solid #1e3a5f', borderRadius: '8px', padding: '8px 20px', color: '#60a5fa', fontSize: '13px', cursor: 'pointer' },
 }

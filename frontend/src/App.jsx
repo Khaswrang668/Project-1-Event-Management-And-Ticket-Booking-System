@@ -13,6 +13,7 @@ import PaymentCallback from './pages/user/PaymentCallback.jsx'
 import ScanTicket from './pages/organizer/ScanTicket.jsx'
 import Certificates from './pages/organizer/Certificates.jsx'
 import AdminRegister from './pages/auth/AdminRegister.jsx'
+import EditEvent from './pages/organizer/EditEvent.jsx'
 
 export default function App() {
   return (
@@ -32,6 +33,12 @@ export default function App() {
        <EventDetail />
       </ProtectedRoute>
       } />
+      
+      <Route path="/organizer/edit-event/:id" element={
+  <ProtectedRoute allowedRoles={['Organizer']}>
+    <EditEvent />
+  </ProtectedRoute>
+} />
 
      <Route path="/payment/:bookingId" element={
      <ProtectedRoute allowedRoles={['User']}>

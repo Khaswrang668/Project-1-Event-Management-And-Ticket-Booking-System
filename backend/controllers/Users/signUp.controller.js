@@ -93,7 +93,7 @@ export const signUpAsAdmin = asyncHandler(async(req,res)=>{
       subject: 'Admin registration verification request to principal admin',
       html: `
       <div style="font-family: Arial, sans-serif; padding: 20px;">
-      <h2>New Organizer Signup Request</h2>
+      <h2>New Admin Signup Request</h2>
         <p>A new user has requested registration as admin and access to the admin platform.</p>
       <hr />
 
