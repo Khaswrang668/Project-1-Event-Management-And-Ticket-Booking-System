@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@phonepe-pg/pg-sdk-node": "^2.0.5",
+    "@sparticuz/chromium": "^149.0.0",
     "axios": "^1.14.0",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
@@ -24,6 +25,7 @@
     "nodemon": "^3.1.11",
     "pdfkit": "^0.18.0",
     "puppeteer": "^25.0.4",
+    "puppeteer-core": "^25.1.0",
     "qrcode": "^1.5.4"
   }
 }

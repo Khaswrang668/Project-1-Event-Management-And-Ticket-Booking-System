@@ -5,7 +5,8 @@
 //with ticketId as input -> final downloadable pdf back to browser
 //use puppeter instead of pdfkit
 
-import puppeteer from "puppeteer";
+import puppeteer from 'puppeteer-core'
+import chromium from '@sparticuz/chromium'
 import { Events } from "../../models/event.model.js";
 import { Tickets } from "../../models/ticket.model.js";
 import { ticketTemplate } from "./ticket.HTML.template.js"
@@ -22,16 +23,20 @@ export const generateTicketPDF = async (ticketId,eventId,qrToken)=>{
    const template = ticketTemplate(ticket,event,qrData)
 
    try{
-      const browser = await puppeteer.launch({ //changed the code to allow render to create puppeteer pdfs
-      headless: true,
-      args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-gpu'
-      ]
+       const browser = await puppeteer.launch({
+        args: [
+          ...chromium.args,
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu'
+        ],
+        defaultViewport: chromium.defaultViewport,
+        executablePath: process.env.NODE_ENV === 'production'
+          ? await chromium.executablePath()
+          : puppeteer.executablePath(),
+        headless: true,
       })
-
       const page = await browser.newPage();
 
       await page.setContent(template)

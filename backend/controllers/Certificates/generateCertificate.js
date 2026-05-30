@@ -1,6 +1,14 @@
 import { Tickets } from "../../models/ticket.model.js"
 import { Bookings } from "../../models/booking.model.js"
-import puppeteer  from "puppeteer"
+import puppeteer from 'puppeteer-core'
+import chromium from '@sparticuz/chromium'
+
+const browser = await puppeteer.launch({
+  args: chromium.args,
+  defaultViewport: chromium.defaultViewport,
+  executablePath: await chromium.executablePath(),
+  headless: chromium.headless,
+})
 import { getHTMLtemplate } from "./getCertificate.temp.HTML.js"
 import { Users } from "../../models/user.model.js"
 import { Events } from "../../models/event.model.js"
@@ -15,15 +23,12 @@ export const generateCertificate = async(certificateId,ticketId,bookingId)=>{
     const template = getHTMLtemplate(ticket,booking,user,event);
 
     try{
-       const browser = await puppeteer.launch({ //changed the code to allow render to create puppeteer pdfs
-             headless: true,
-             args: [
-             '--no-sandbox',
-             '--disable-setuid-sandbox',
-             '--disable-dev-shm-usage',
-             '--disable-gpu'
-             ]
-        })
+   const browser = await puppeteer.launch({
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath(),
+    headless: chromium.headless,
+   })
 
        const page = await browser.newPage();
       
