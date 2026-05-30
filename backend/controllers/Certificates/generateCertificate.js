@@ -15,7 +15,16 @@ export const generateCertificate = async(certificateId,ticketId,bookingId)=>{
     const template = getHTMLtemplate(ticket,booking,user,event);
 
     try{
-       const browser = await puppeteer.launch();
+       const browser = await puppeteer.launch({ //changed the code to allow render to create puppeteer pdfs
+             headless: true,
+             args: [
+             '--no-sandbox',
+             '--disable-setuid-sandbox',
+             '--disable-dev-shm-usage',
+             '--disable-gpu'
+             ]
+        })
+
        const page = await browser.newPage();
       
             await page.setContent(template)
