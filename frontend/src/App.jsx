@@ -14,11 +14,14 @@ import ScanTicket from './pages/organizer/ScanTicket.jsx'
 import Certificates from './pages/organizer/Certificates.jsx'
 import AdminRegister from './pages/auth/AdminRegister.jsx'
 import EditEvent from './pages/organizer/EditEvent.jsx'
+import Landing from './pages/Landing.jsx'
+
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      // Change the default route from redirect to landing page
+      <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/register-admin" element={<AdminRegister />} />
