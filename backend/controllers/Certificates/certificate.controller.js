@@ -5,7 +5,7 @@ import { randomUUID } from 'crypto';
 import { generateCertificate } from "./generateCertificate.js";
 import nodemailer, { createTransport } from "nodemailer";
 import { Users } from "../../models/user.model.js";
-import { Resend } from 'Resend';
+import { Resend } from 'resend';
 import "dotenv/config"
 
 export const certificateController = asyncHandler(async (req, res) => {

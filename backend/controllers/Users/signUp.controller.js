@@ -2,7 +2,7 @@ import { Users } from '../../models/user.model.js'
 import bcrypt from 'bcrypt'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import nodemailer,{createTransport} from "nodemailer";
-import { Resend } from 'Resend';
+import { Resend } from 'resend';
 import "dotenv/config";
 
 export const signUp = asyncHandler(async (req, res) => {
