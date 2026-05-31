@@ -6,6 +6,7 @@ import { generateCertificate } from "./generateCertificate.js";
 import nodemailer, { createTransport } from "nodemailer";
 import { Users } from "../../models/user.model.js";
 import { Resend } from 'resend';
+//Fixed resend  
 import "dotenv/config"
 
 export const certificateController = asyncHandler(async (req, res) => {
