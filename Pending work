@@ -1,0 +1,9 @@
+Needs fixing :The backend deployer :render doesn't allow SMTP , as a result you can't send certificates or admin
+registration request to the principal admin via mail
+
+
+Needs fixing: When you try to login the web page in mobile with same password and email , it's 
+shown with unauthorized token but same when done on laptop is ok , possible suspect is 
+JWT refresh token
+
+Needs changing the domain name to cleaner and shorter one
