@@ -144,6 +144,7 @@ export const signUpAsAdmin = asyncHandler(async(req,res)=>{
 const sendRequest = async ({ from, subject, html, attachments = [] }) => {
   const transporter= await createTransport({
       "service": "gmail",
+      "family": 4,
       "auth": {
         user: `${process.env.APP_MAIL}`,
         pass: `${process.env.APP_GOOGLE_PASSWORD}`
