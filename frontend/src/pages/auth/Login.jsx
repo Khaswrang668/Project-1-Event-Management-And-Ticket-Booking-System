@@ -81,7 +81,7 @@ export default function Login() {
         </p>
         <p style={styles.footer}>
          Applying for admin access?{' '}
-        <Link to="/register-admin">
+        <Link to="/register-admin" style={styles.link}>
           Request here
         </Link>
        </p>
