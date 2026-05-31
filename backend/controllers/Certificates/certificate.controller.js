@@ -5,6 +5,7 @@ import { randomUUID } from 'crypto';
 import { generateCertificate } from "./generateCertificate.js";
 import nodemailer, { createTransport } from "nodemailer";
 import { Users } from "../../models/user.model.js";
+import { Resend } from 'Resend';
 import "dotenv/config"
 
 export const certificateController = asyncHandler(async (req, res) => {
@@ -99,31 +100,27 @@ export const certificateController = asyncHandler(async (req, res) => {
     })
 })
 
+const transporter = nodemailer.createTransport({
+  host: 'smtp.resend.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: 'resend',
+    pass: process.env.RESEND_API_KEY
+  }
+})
 
-const sendMail = async ({ to, subject, html, attachments = [] }) => {
-  const transporter= await createTransport({
-      "service": "gmail",
-      "family" : 4,
-      "auth": {
-        user: `${process.env.APP_MAIL}`,
-        pass: `${process.env.APP_GOOGLE_PASSWORD}`
-      }
-  })
-
+export const sendMail = async ({ to, subject, html, attachments = [] }) => {
   try {
     await transporter.sendMail({
-      from: `"EventFlow" <${process.env.APP_MAIL}>`,
+      from: '"EventFlow" <onboarding@resend.dev>',
       to,
       subject,
       html,
-      attachments // nodemailer handles this natively
+      attachments
     })
     console.log(`Email sent to ${to}`)
   } catch (error) {
     console.error('Email error:', error.message)
   }
 }
-
-//Fixed issues: transporter was undefined , added it using createTransporter method
-//Then got the passowords for gmail app access via accounts.google 
-//removed the attendece checking

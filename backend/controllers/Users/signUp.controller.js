@@ -2,6 +2,7 @@ import { Users } from '../../models/user.model.js'
 import bcrypt from 'bcrypt'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import nodemailer,{createTransport} from "nodemailer";
+import { Resend } from 'Resend';
 import "dotenv/config";
 
 export const signUp = asyncHandler(async (req, res) => {
@@ -141,20 +142,21 @@ export const signUpAsAdmin = asyncHandler(async(req,res)=>{
   })
 })
 
-const sendRequest = async ({ from, subject, html, attachments = [] }) => {
-  const transporter= await createTransport({
-      "service": "gmail",
-      "family": 4,
-      "auth": {
-        user: `${process.env.APP_MAIL}`,
-        pass: `${process.env.APP_GOOGLE_PASSWORD}`
-      }
+const sendRequest = async ({ subject, html }) => {
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.resend.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'resend',
+      pass: process.env.RESEND_API_KEY
+    }
   })
 
   try {
     await transporter.sendMail({
-      from,
-      to: `${process.env.APP_MAIL}`,
+      from: '"EventFlow" <onboarding@resend.dev>',
+      to: process.env.APP_MAIL,
       subject,
       html
     })
