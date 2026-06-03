@@ -113,7 +113,7 @@ export const sendMail = async ({ to, subject, html, attachments}) => {
   })
 
   if(error){
-    throw Error(`An error has occurred ${error}`)
+    throw new Error(`An error has occurred ${error}`)
   }
 
   return data;

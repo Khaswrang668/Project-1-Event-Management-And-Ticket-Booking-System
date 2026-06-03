@@ -1,7 +1,6 @@
 import { Users } from '../../models/user.model.js'
 import bcrypt from 'bcrypt'
 import { asyncHandler } from '../../utils/asyncHandler.js'
-import nodemailer,{createTransport} from "nodemailer";
 import { Resend } from 'resend';
 import "dotenv/config";
 
@@ -142,26 +141,19 @@ export const signUpAsAdmin = asyncHandler(async(req,res)=>{
   })
 })
 
-const sendRequest = async ({ subject, html }) => {
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.resend.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: 'resend',
-      pass: process.env.RESEND_API_KEY
-    }
+const sendRequest = async ({ from, subject, html }) => {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
+  const {data, error} = await resend.emails.send({
+    from,
+    to: 'EventFlow <onboarding@resend.dev>',
+    subject,
+    html
   })
 
-  try {
-    await transporter.sendMail({
-      from: '"EventFlow" <onboarding@resend.dev>',
-      to: process.env.APP_MAIL,
-      subject,
-      html
-    })
-    console.log(`Email sent to ${process.env.APP_MAIL}`)
-  } catch (error) {
-    console.error('Email error:', error.message)
+  if(error){
+    throw new Error(`An error has occurred ${error}`)
   }
+
+  return data;
 }
