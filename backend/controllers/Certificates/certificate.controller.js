@@ -3,7 +3,6 @@ import { Tickets } from "../../models/ticket.model.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { randomUUID } from 'crypto';
 import { generateCertificate } from "./generateCertificate.js";
-import nodemailer, { createTransport } from "nodemailer";
 import { Users } from "../../models/user.model.js";
 import { Resend } from 'resend';
 //Fixed resend  
@@ -101,27 +100,21 @@ export const certificateController = asyncHandler(async (req, res) => {
     })
 })
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.resend.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: 'resend',
-    pass: process.env.RESEND_API_KEY
-  }
-})
 
-export const sendMail = async ({ to, subject, html, attachments = [] }) => {
-  try {
-    await transporter.sendMail({
-      from: '"EventFlow" <onboarding@resend.dev>',
-      to,
-      subject,
-      html,
-      attachments
-    })
-    console.log(`Email sent to ${to}`)
-  } catch (error) {
-    console.error('Email error:', error.message)
+export const sendMail = async ({ to, subject, html, attachments}) => {
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  const { data, error} = await resend.emails.send({
+    from: 'EventFlow <onboarding@resend.dev>',
+    to,
+    subject: "Certificates for participating the event",
+    html,
+    attachments
+  })
+
+  if(error){
+    throw Error(`An error has occurred ${error}`)
   }
+
+  return data;
 }
