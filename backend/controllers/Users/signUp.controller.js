@@ -141,19 +141,19 @@ export const signUpAsAdmin = asyncHandler(async(req,res)=>{
   })
 })
 
-const sendRequest = async ({ from, subject, html }) => {
-  const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-  const {data, error} = await resend.emails.send({
-    from,
-    to: 'EventFlow <onboarding@resend.dev>',
+const sendRequest = async ({ to, subject, html }) => {
+  const { data, error } = await resend.emails.send({
+    from: 'EventFlow <noreply@eventbooker.online>',
+    to: Array.isArray(to) ? to : [to],
     subject,
     html
-  })
+  });
 
-  if(error){
-    throw new Error(`An error has occurred ${error}`)
+  if (error) {
+    throw new Error(`Resend error: ${error.message || JSON.stringify(error)}`);
   }
 
   return data;
-}
+};

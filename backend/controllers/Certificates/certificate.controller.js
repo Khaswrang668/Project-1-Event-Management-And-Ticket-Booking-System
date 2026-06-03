@@ -100,21 +100,20 @@ export const certificateController = asyncHandler(async (req, res) => {
     })
 })
 
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const sendMail = async ({ to, subject, html, attachments}) => {
-  const resend = new Resend(process.env.RESEND_API_KEY)
-
-  const { data, error} = await resend.emails.send({
-    from: 'EventFlow <onboarding@resend.dev>',
-    to,
-    subject: "Certificates for participating the event",
+export const sendMail = async ({ to, subject, html, attachments }) => {
+  const { data, error } = await resend.emails.send({
+    from: 'EventFlow <noreply@eventbooker.online>',
+    to: Array.isArray(to) ? to : [to],
+    subject,
     html,
     attachments
-  })
+  });
 
-  if(error){
-    throw new Error(`An error has occurred ${error}`)
+  if (error) {
+    throw new Error(`Resend error: ${error.message || JSON.stringify(error)}`);
   }
 
   return data;
-}
+};
