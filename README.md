@@ -1,6 +1,6 @@
 ## EventBooker: An Event Management And Ticket Booking System
 
-Event management and ticket booking system is a full-stack web application that handles event management and allow Users to search events based on thier preffered filters and view events, it handles ticket booking , payments with transcational rollbacks,QR-encoded ticket generation and JWT-based user authentication. The organizers can host thier events and scan tickets for verfication, with certificate generation and mailing system
+Event management and ticket booking system is a full-stack web application that handles event management and allow Users to search events based on thier preffered filters and view events, it handles ticket booking , payments with transcational rollbacks,QR-encoded ticket generation and JWT-based user authentication. The organizers can host thier events and scan tickets for verfication, with certificate generation and mailing system.
 
 ## Features
 
@@ -32,4 +32,17 @@ Event management and ticket booking system is a full-stack web application that 
 
 ## Screenshots
 
-- Landing Page
+## Landing Page
+![Landingpage](./screenshots/LandingPage.png)
+
+## Login and Register Page
+![Login](./screenshots/Login.png)
+
+![Sign Up](./screenshots/SignUp.png)
+
+## Users
+
+## DiscoverEvents
+![Discover](./screenshots/DiscoverEvents.png)
+
+## View Events
