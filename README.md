@@ -32,4 +32,4 @@ Event management and ticket booking system is a full-stack web application that 
 
 ## Screenshots
 
-- User
+- Landing Page
