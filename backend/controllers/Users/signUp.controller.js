@@ -89,7 +89,6 @@ export const signUpAsAdmin = asyncHandler(async(req,res)=>{
   })
 
   sendRequest({
-      from: email,
       subject: 'Admin registration verification request to principal admin',
       html: `
       <div style="font-family: Arial, sans-serif; padding: 20px;">
@@ -143,10 +142,10 @@ export const signUpAsAdmin = asyncHandler(async(req,res)=>{
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const sendRequest = async ({ to, subject, html }) => {
+const sendRequest = async ({ subject, html }) => {
   const { data, error } = await resend.emails.send({
     from: 'EventFlow <noreply@eventbooker.online>',
-    to: Array.isArray(to) ? to : [to],
+    to: 'eventmanagement924@gmail.com',
     subject,
     html
   });
