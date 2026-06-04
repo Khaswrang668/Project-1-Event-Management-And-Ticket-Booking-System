@@ -73,7 +73,7 @@ export default function BrowseEvents() {
               <path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z"/>
             </svg>
           </div>
-          <span style={s.brandName}>EventFlow</span>
+          <span style={s.brandName}>EventBooker</span>
         </div>
         <div style={s.navRight}>
           <span style={s.navUser}>👤 {user?.username || user?.email}</span>
