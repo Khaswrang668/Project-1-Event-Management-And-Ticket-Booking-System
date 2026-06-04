@@ -30,10 +30,13 @@ Event management and ticket booking system is a full-stack web application that 
 | Email Service | Resend |
 | Deployment | Vercel, Render |
 
+## Live Demo
+[Visit website](https://www.eventbooker.online/)
+
 ## Screenshots
 
 ## Landing Page
-![Landingpage](./screenshots/LandingPage.png)
+🌐Link: ![Landingpage](./screenshots/LandingPage.png)
 
 ## Login and Register Page
 ![Login](./screenshots/Login.png)
@@ -67,3 +70,17 @@ Event management and ticket booking system is a full-stack web application that 
 
 ## Admin Dashboard
 ![Admin](./screenshots/AdminDashboard.png)
+
+
+## Architecture and work flow diagram
+
+The overview of the system's architecture:
+![System](./work%20flow%20diagrams/architecture_overview.svg)
+
+Payment and booking workflow:
+![Booking](./work%20flow%20diagrams/booking_workflow.svg)
+
+Post-event workflow(scanning,verification and certificate giveaways):
+![Postevent](./work%20flow%20diagrams/attendance_certificate_workflow.svg)
+
+## Installation guide
