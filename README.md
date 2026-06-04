@@ -46,3 +46,14 @@ Event management and ticket booking system is a full-stack web application that 
 ![Discover](./screenshots/DiscoverEvents.png)
 
 ## View Events
+![Viewevents](./screenshots/EventPage.png)
+
+![Viewevents2](./screenshots/EventPage2.png)
+
+## PhonePe Payment Gateway
+
+![PaymentGateway](./screenshots/PhonepePaymentGateway.png)
+
+## Booking confirmation
+
+![BookingStatus](./screenshots/BookingStatus.png)
