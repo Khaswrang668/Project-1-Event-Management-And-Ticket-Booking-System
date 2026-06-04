@@ -83,7 +83,7 @@ export const certificateController = asyncHandler(async (req, res) => {
         attachments: [
             {
                 filename: `certificate-${certificateId}.pdf`,
-                content: certificatePdf,
+                content: certificatePdf.toString('base64'),
                 contentType: 'application/pdf'
             }
         ]
