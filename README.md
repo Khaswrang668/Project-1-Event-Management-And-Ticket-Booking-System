@@ -37,7 +37,6 @@ Event management and ticket booking system is a full-stack web application that 
 
 ## Login and Register Page
 ![Login](./screenshots/Login.png)
-
 ![Sign Up](./screenshots/SignUp.png)
 
 ## Users
@@ -48,12 +47,23 @@ Event management and ticket booking system is a full-stack web application that 
 ## View Events
 ![Viewevents](./screenshots/EventPage.png)
 
-![Viewevents2](./screenshots/EventPage2.png)
-
 ## PhonePe Payment Gateway
-
 ![PaymentGateway](./screenshots/PhonepePaymentGateway.png)
 
 ## Booking confirmation
-
 ![BookingStatus](./screenshots/BookingStatus.png)
+
+## Download Tickets and My bookings page
+![Tickets](./screenshots/MyBookings.png)
+
+## Organizers Dashboard
+![OrganizerDashboard](./screenshots/OrganizerDashboard.png)
+
+## Create Events
+![Create](./screenshots/CreateEvents.png)
+
+## Scan Tickets
+![ScanTickets](./screenshots/scanImages.png)
+
+## Admin Dashboard
+![Admin](./screenshots/AdminDashboard.png)
