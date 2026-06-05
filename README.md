@@ -101,7 +101,7 @@ Make sure you have the following installed before starting:
 ## 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/Khaswrang668/Project-1-Event-Management-And-Ticket-Booking-System.git
 cd your-repo-name
 ```
 
